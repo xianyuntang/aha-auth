@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: aha
+      POSTGRES_USER: aha
+      POSTGRES_PASSWORD: aha
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER}']
+      interval: 5s
+      timeout: 60s
+      retries: 20
+
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - '6379:6379'
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 60s
+      retries: 20
