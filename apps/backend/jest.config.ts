@@ -8,4 +8,6 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/apps/backend',
+  silent: false,
+  verbose: true,
 };
