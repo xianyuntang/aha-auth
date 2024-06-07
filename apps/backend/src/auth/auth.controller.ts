@@ -2,8 +2,8 @@ import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { SignInResponse } from 'common';
 
-import { LocalSignInCommand } from './commands/impl';
-import { LocalSignUpCommand } from './commands/impl/local-sign-up.command';
+import { Public } from './auth.decorator';
+import { LocalSignInCommand, LocalSignUpCommand } from './commands/impl';
 import { LocalSignInRequestDto } from './dto/local-sign-in.dto';
 import { LocalSignUpRequestDto } from './dto/local-sign-up.dto';
 
@@ -11,6 +11,7 @@ import { LocalSignUpRequestDto } from './dto/local-sign-up.dto';
 export class AuthController {
   constructor(private readonly commandBus: CommandBus) {}
 
+  @Public()
   @Post('sign-in')
   @HttpCode(HttpStatus.OK)
   localSignIn(
@@ -22,6 +23,7 @@ export class AuthController {
     );
   }
 
+  @Public()
   @Post('sign-up')
   @HttpCode(HttpStatus.OK)
   localSignUp(
