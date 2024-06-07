@@ -1,9 +1,5 @@
 import { ClassConstructor } from 'class-transformer';
-import {
-  MinLength,
-  registerDecorator,
-  ValidationOptions,
-} from 'class-validator';
+import { registerDecorator, ValidationOptions } from 'class-validator';
 
 import { MatchConstraint } from './validators.constraint';
 
