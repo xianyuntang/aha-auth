@@ -13,14 +13,14 @@ describe('AppConfigService', () => {
   };
 
   beforeAll(async () => {
-    const appConfigModule = await Test.createTestingModule({
+    const moduleRef = await Test.createTestingModule({
       providers: [
         AppConfigService,
         { provide: ConfigService, useValue: mockConfigService },
       ],
     }).compile();
 
-    appConfigService = appConfigModule.get<AppConfigService>(AppConfigService);
+    appConfigService = moduleRef.get<AppConfigService>(AppConfigService);
   });
 
   beforeEach(() => {
