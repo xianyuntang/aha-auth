@@ -50,4 +50,10 @@ export class AppEnvSchema {
     return obj[key] === 'true';
   })
   [EnvField.DB_DEBUG]!: boolean;
+
+  @IsString()
+  [EnvField.JWT_ACCESS_SECRET]!: string;
+
+  @IsString()
+  [EnvField.JWT_REFRESH_SECRET]!: string;
 }

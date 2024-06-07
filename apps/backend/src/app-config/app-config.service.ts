@@ -36,4 +36,17 @@ export class AppConfigService {
       debug: this.configService.getOrThrow<boolean>(EnvField.DB_DEBUG),
     };
   }
+
+  get jwt() {
+    return {
+      accessSecret: this.configService.getOrThrow<string>(
+        EnvField.JWT_ACCESS_SECRET
+      ),
+      refreshSecret: this.configService.getOrThrow<string>(
+        EnvField.JWT_REFRESH_SECRET
+      ),
+      accessTokenExpiresIn: '10m',
+      refreshTokenExpiresIn: '7d',
+    };
+  }
 }

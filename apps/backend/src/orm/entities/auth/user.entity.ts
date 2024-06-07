@@ -3,7 +3,6 @@ import {
   Entity,
   OneToMany,
   OneToOne,
-  Opt,
   Property,
 } from '@mikro-orm/core';
 
@@ -14,11 +13,14 @@ import { UserProfile } from './user-profile.entity';
 
 @Entity({ tableName: 'users', repository: () => UserRepository })
 export class User extends CustomBaseEntity {
-  @Property({ unique: true })
+  @Property({ unique: true, length: 254 })
   email!: string;
 
-  @Property({ nullable: true })
+  @Property({ nullable: true, length: 60, hidden: true })
   password?: string;
+
+  @Property()
+  lastLoggedAt!: Date;
 
   @OneToOne(() => UserProfile, 'user', {
     orphanRemoval: true,
@@ -29,7 +31,4 @@ export class User extends CustomBaseEntity {
     orphanRemoval: true,
   })
   oauthUsers = new Collection<OauthUser>(this);
-
-  @Property({ default: false })
-  isAdmin!: boolean & Opt;
 }

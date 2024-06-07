@@ -19,7 +19,4 @@ export class UserProfile extends CustomBaseEntity {
 
   @Property({ nullable: true })
   lastName?: string;
-
-  @Property({ nullable: true })
-  address?: string;
 }

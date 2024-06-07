@@ -1,1 +1,3 @@
-export { OauthUser, User, UserProfile } from '../../orm/entities';
+import { OauthUser, User, UserProfile } from '../../orm';
+
+export { OauthUser, User, UserProfile };

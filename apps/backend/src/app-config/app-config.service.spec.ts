@@ -36,6 +36,8 @@ describe('AppConfigService', () => {
         [EnvField.DB_USER]: 'test_user',
         [EnvField.DB_PASSWORD]: 'test_password',
         [EnvField.DB_DEBUG]: true,
+        [EnvField.JWT_ACCESS_SECRET]: 'jwt-access-secret',
+        [EnvField.JWT_REFRESH_SECRET]: 'jwt-refresh-secret',
       };
       return mockValues[key];
     });
@@ -49,6 +51,7 @@ describe('AppConfigService', () => {
       expect(nodeEnv).toBe(Environment.DEVELOPMENT);
       expect(isProduction).toBe(false);
     });
+
     it('should return the correct server configuration', () => {
       const {
         server: { prefix, port, externalUrl },
@@ -68,6 +71,21 @@ describe('AppConfigService', () => {
       expect(user).toBe('test_user');
       expect(password).toBe('test_password');
       expect(debug).toBe(true);
+    });
+
+    it('should return the correct jwt configuration', () => {
+      const {
+        jwt: {
+          accessSecret,
+          refreshSecret,
+          accessTokenExpiresIn,
+          refreshTokenExpiresIn,
+        },
+      } = appConfigService;
+      expect(accessSecret).toBe('jwt-access-secret');
+      expect(refreshSecret).toBe('jwt-refresh-secret');
+      expect(accessTokenExpiresIn).toBe('10m');
+      expect(refreshTokenExpiresIn).toBe('7d');
     });
   });
 });
