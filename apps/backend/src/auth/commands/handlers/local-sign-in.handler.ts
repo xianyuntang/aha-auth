@@ -4,11 +4,7 @@ import { UnauthorizedException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import { UserRepository } from '../../../orm';
-import {
-  JwtTokenService,
-  PasswordService,
-  SigninMailService,
-} from '../../services';
+import { PasswordService, SigninMailService } from '../../services';
 import { LocalSignInCommand } from '../impl';
 
 @CommandHandler(LocalSignInCommand)

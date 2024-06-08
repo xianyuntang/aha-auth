@@ -1,4 +1,4 @@
-import { IsEmail, IsStrongPassword, Max, MaxLength } from 'class-validator';
+import { IsEmail, IsStrongPassword, MaxLength } from 'class-validator';
 import { LocalSignUpRequest, MatchesWithProperty } from 'common';
 
 export class LocalSignUpRequestDto implements LocalSignUpRequest {

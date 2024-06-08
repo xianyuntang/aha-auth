@@ -20,9 +20,11 @@ import {
   OauthSignInCommand,
   ResetPasswordCommand,
 } from './commands/impl';
-import { ResetPasswordRequestDto } from './dto';
-import { LocalSignInRequestDto } from './dto/local-sign-in.dto';
-import { LocalSignUpRequestDto } from './dto/local-sign-up.dto';
+import {
+  LocalSignInRequestDto,
+  LocalSignUpRequestDto,
+  ResetPasswordRequestDto,
+} from './dto';
 import { GoogleOAuthGuard } from './guards/google-oauth.guard';
 
 @Controller('auth')
