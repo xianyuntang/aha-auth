@@ -1,7 +1,6 @@
 import { EntityManager } from '@mikro-orm/postgresql';
 import { ConflictException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import dayjs from 'dayjs';
 
 import { UserRepository } from '../../../orm';
 import { PasswordService, SigninMailService } from '../../services';
@@ -32,7 +31,7 @@ export class LocalSignUpHandler implements ICommandHandler<LocalSignUpCommand> {
       return this.userRepository.create({
         email,
         password: hashedPassword,
-        lastLoggedAt: dayjs().toDate(),
+        signInHistories: {},
         profile: {},
       });
     });

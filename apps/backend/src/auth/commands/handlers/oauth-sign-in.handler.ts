@@ -2,7 +2,6 @@ import { EntityManager, wrap } from '@mikro-orm/core';
 import { BadRequestException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { ExtractArrayElementType } from 'common';
-import dayjs from 'dayjs';
 import { Profile } from 'passport-google-oauth20';
 
 import { OauthUserRepository, UserRepository } from '../../../orm';
@@ -48,14 +47,15 @@ export class OauthSignInHandler implements ICommandHandler<OauthSignInCommand> {
           wrap(user).assign({
             profile: { firstName: name?.givenName, lastName: name?.familyName },
             oauthUsers: { provider },
+            signInHistories: {},
           });
         }
       } else {
         return this.userRepository.create({
           email: email.value,
-          lastLoggedAt: dayjs().toDate(),
           profile: { firstName: name?.givenName, lastName: name?.familyName },
           oauthUsers: { provider },
+          signInHistories: {},
         });
       }
       return user;

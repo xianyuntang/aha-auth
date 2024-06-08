@@ -44,7 +44,7 @@ export class LocalSignInHandler implements ICommandHandler<LocalSignInCommand> {
         throw new UnauthorizedException('Username and password do not match.');
       }
 
-      wrap(exist).assign({ signInCount: exist.signInCount + 1 });
+      wrap(exist).assign({ signInHistories: {} });
 
       return exist;
     });

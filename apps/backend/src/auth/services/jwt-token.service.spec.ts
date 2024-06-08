@@ -9,12 +9,11 @@ import { JwtTokenService } from './jwt-token.service';
 const mockedUser: User = {
   oauthUsers: [] as any,
   createdAt: dayjs().toDate(),
-  lastLoggedAt: dayjs().toDate(),
   updatedAt: dayjs().toDate(),
   email: 'john@example.com',
   profile: { firstName: 'John', lastName: 'Doe' } as UserProfile,
   id: '1',
-  signInCount: 1,
+  signInHistories: [] as any,
 };
 
 const mockedAppConfigService = {
