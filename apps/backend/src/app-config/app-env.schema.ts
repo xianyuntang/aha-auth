@@ -82,4 +82,10 @@ export class AppEnvSchema {
 
   @IsString()
   [EnvField.SMTP_SENDER]!: string;
+
+  @IsString()
+  [EnvField.OAUTH_GOOGLE_CLIENT_ID]!: string;
+
+  @IsString()
+  [EnvField.OAUTH_GOOGLE_CLIENT_SECRET]!: string;
 }

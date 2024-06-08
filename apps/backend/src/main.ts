@@ -3,6 +3,9 @@ import 'reflect-metadata';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import RedisStore from 'connect-redis';
+import session from 'express-session';
+import Redis from 'ioredis';
 
 import { AppModule } from './app/app.module';
 import { AppConfigService } from './app-config';
@@ -13,7 +16,8 @@ async function bootstrap() {
 
   const {
     env: { isProduction },
-    server: { prefix, port },
+    server: { prefix, port, secret },
+    redis,
   } = appConfigService;
 
   app.setGlobalPrefix(prefix);

@@ -3,14 +3,16 @@ import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { JwtModule } from '@nestjs/jwt';
 
-import { MailerModule } from '../mailer';
 import { OauthUser, User, UserProfile } from '../orm';
 import { AuthController } from './auth.controller';
 import { commandHandlers } from './commands/handlers';
 import { JwtAuthGuard } from './guards';
-import { JwtTokenService, PasswordService } from './services';
-import { SigninMailService } from './services/signin-mail.service';
-import { JwtStrategy } from './strategies';
+import {
+  JwtTokenService,
+  PasswordService,
+  SigninMailService,
+} from './services';
+import { GoogleOauthStrategy, JwtStrategy } from './strategies';
 
 @Module({
   imports: [
@@ -24,6 +26,7 @@ import { JwtStrategy } from './strategies';
     PasswordService,
     JwtTokenService,
     JwtStrategy,
+    GoogleOauthStrategy,
     SigninMailService,
     { provide: 'APP_GUARD', useClass: JwtAuthGuard },
   ],

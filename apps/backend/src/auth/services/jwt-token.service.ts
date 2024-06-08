@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthorizedUser, JwtTokenPayload } from 'common';
+import urljoin from 'url-join';
 
 import { AppConfigService } from '../../app-config';
 import { User } from '../../orm';
@@ -11,6 +12,22 @@ export class JwtTokenService {
     private readonly appConfigService: AppConfigService,
     private readonly jwtService: JwtService
   ) {}
+
+  async getSignInLink(user: User) {
+    const {
+      server: { externalUrl, prefix },
+    } = this.appConfigService;
+    const accessToken = this.issueAccessToken(user);
+    const refreshToken = this.issueRefreshToken(user);
+
+    return urljoin(
+      externalUrl,
+      prefix,
+      'sign-in',
+      `?accessToken=${accessToken}`,
+      `?refreshToken=${refreshToken}`
+    );
+  }
 
   async decodeAccessToken(token: string) {
     let decodedTokenPayload: JwtTokenPayload | null = null;

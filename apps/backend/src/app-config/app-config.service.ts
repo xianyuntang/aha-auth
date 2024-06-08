@@ -67,4 +67,17 @@ export class AppConfigService {
       sender: this.configService.getOrThrow<string>(EnvField.SMTP_SENDER),
     };
   }
+
+  get oauth() {
+    return {
+      google: {
+        clientId: this.configService.getOrThrow<string>(
+          EnvField.OAUTH_GOOGLE_CLIENT_ID
+        ),
+        clientSecret: this.configService.getOrThrow<string>(
+          EnvField.OAUTH_GOOGLE_CLIENT_SECRET
+        ),
+      },
+    };
+  }
 }

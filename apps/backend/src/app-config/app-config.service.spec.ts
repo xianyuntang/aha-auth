@@ -46,6 +46,8 @@ describe('AppConfigService', () => {
         [EnvField.SMTP_USER]: 'smtp',
         [EnvField.SMTP_SENDER]: 'test@example.com',
         [EnvField.SMTP_SECURE]: true,
+        [EnvField.OAUTH_GOOGLE_CLIENT_ID]: 'g-client-id',
+        [EnvField.OAUTH_GOOGLE_CLIENT_SECRET]: 'g-client-secret',
       };
       return mockValues[key];
     });
@@ -114,6 +116,14 @@ describe('AppConfigService', () => {
       expect(user).toBe('smtp');
       expect(password).toBe('smtp-password');
       expect(sender).toBe('test@example.com');
+    });
+
+    it('should return the correct oauth configuration', () => {
+      const {
+        oauth: { google },
+      } = appConfigService;
+      expect(google.clientId).toBe('g-client-id');
+      expect(google.clientSecret).toBe('g-client-secret');
     });
   });
 });

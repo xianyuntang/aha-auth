@@ -9,25 +9,12 @@ import { JwtTokenService } from './jwt-token.service';
 @Injectable()
 export class SigninMailService {
   constructor(
-    private readonly appConfigService: AppConfigService,
     private readonly mailerService: MailerService,
     private readonly jwtTokenService: JwtTokenService
   ) {}
 
   async sendSignInMail(user: User) {
-    const {
-      server: { externalUrl, prefix },
-    } = this.appConfigService;
-    const accessToken = this.jwtTokenService.issueAccessToken(user);
-    const refreshToken = this.jwtTokenService.issueRefreshToken(user);
-
-    const signInLink = urljoin(
-      externalUrl,
-      prefix,
-      'sign-in',
-      `?accessToken=${accessToken}`,
-      `?refreshToken=${refreshToken}`
-    );
+    const signInLink = this.jwtTokenService.getSignInLink(user);
 
     await this.mailerService.sendMail({
       to: user.email,
