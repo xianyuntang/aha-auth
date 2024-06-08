@@ -7,6 +7,7 @@ import { AppConfigModule, AppConfigService } from '../app-config';
 import { AuthModule } from '../auth';
 import * as entities from '../db/entities';
 import { MailerModule } from '../mailer';
+import { UsersModule } from '../users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -61,6 +62,7 @@ import { AppService } from './app.service';
       inject: [AppConfigService],
     }),
     AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

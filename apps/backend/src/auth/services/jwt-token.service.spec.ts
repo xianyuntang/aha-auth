@@ -7,13 +7,13 @@ import { User, UserProfile } from '../../orm';
 import { JwtTokenService } from './jwt-token.service';
 
 const mockedUser: User = {
-  oauthUsers: [] as any,
+  oauthUsers: [] as never,
+  signInHistories: [] as never,
   createdAt: dayjs().toDate(),
   updatedAt: dayjs().toDate(),
   email: 'john@example.com',
   profile: { firstName: 'John', lastName: 'Doe' } as UserProfile,
   id: '1',
-  signInHistories: [] as any,
 };
 
 const mockedAppConfigService = {
