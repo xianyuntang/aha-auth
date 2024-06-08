@@ -38,6 +38,14 @@ describe('AppConfigService', () => {
         [EnvField.DB_DEBUG]: true,
         [EnvField.JWT_ACCESS_SECRET]: 'jwt-access-secret',
         [EnvField.JWT_REFRESH_SECRET]: 'jwt-refresh-secret',
+        [EnvField.REDIS_HOST]: 'redis',
+        [EnvField.REDIS_PORT]: 6379,
+        [EnvField.SMTP_HOST]: 'smtp',
+        [EnvField.SMTP_PORT]: 465,
+        [EnvField.SMTP_PASSWORD]: 'smtp-password',
+        [EnvField.SMTP_USER]: 'smtp',
+        [EnvField.SMTP_SENDER]: 'test@example.com',
+        [EnvField.SMTP_SECURE]: true,
       };
       return mockValues[key];
     });
@@ -86,6 +94,26 @@ describe('AppConfigService', () => {
       expect(refreshSecret).toBe('jwt-refresh-secret');
       expect(accessTokenExpiresIn).toBe('10m');
       expect(refreshTokenExpiresIn).toBe('7d');
+    });
+
+    it('should return the correct redis configuration', () => {
+      const {
+        redis: { host, port },
+      } = appConfigService;
+      expect(host).toBe('redis');
+      expect(port).toBe(6379);
+    });
+
+    it('should return the correct smtp configuration', () => {
+      const {
+        smtp: { host, port, secure, user, password, sender },
+      } = appConfigService;
+      expect(host).toBe('smtp');
+      expect(port).toBe(465);
+      expect(secure).toBe(true);
+      expect(user).toBe('smtp');
+      expect(password).toBe('smtp-password');
+      expect(sender).toBe('test@example.com');
     });
   });
 });

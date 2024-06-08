@@ -56,4 +56,30 @@ export class AppEnvSchema {
 
   @IsString()
   [EnvField.JWT_REFRESH_SECRET]!: string;
+
+  @IsString()
+  [EnvField.REDIS_HOST]!: string;
+
+  @IsNumber()
+  @Min(0)
+  @Max(65535)
+  [EnvField.REDIS_PORT]!: number;
+
+  @IsUrl({ require_protocol: false })
+  [EnvField.SMTP_HOST]!: string;
+
+  @IsEnum([25, 587, 2587, 465, 2465])
+  [EnvField.SMTP_PORT]!: number;
+
+  @IsBoolean()
+  [EnvField.SMTP_SECURE]!: boolean;
+
+  @IsString()
+  [EnvField.SMTP_USER]!: string;
+
+  @IsString()
+  [EnvField.SMTP_PASSWORD]!: string;
+
+  @IsString()
+  [EnvField.SMTP_SENDER]!: string;
 }

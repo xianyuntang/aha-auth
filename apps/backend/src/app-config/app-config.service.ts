@@ -26,6 +26,13 @@ export class AppConfigService {
     };
   }
 
+  get redis() {
+    return {
+      host: this.configService.getOrThrow<string>(EnvField.REDIS_HOST),
+      port: this.configService.getOrThrow<number>(EnvField.REDIS_PORT),
+    };
+  }
+
   get db() {
     return {
       host: this.configService.getOrThrow<string>(EnvField.DB_HOST),
@@ -47,6 +54,17 @@ export class AppConfigService {
       ),
       accessTokenExpiresIn: '10m',
       refreshTokenExpiresIn: '7d',
+    };
+  }
+
+  get smtp() {
+    return {
+      host: this.configService.getOrThrow<string>(EnvField.SMTP_HOST),
+      port: this.configService.getOrThrow<number>(EnvField.SMTP_PORT),
+      secure: this.configService.getOrThrow(<string>EnvField.SMTP_SECURE),
+      user: this.configService.getOrThrow<string>(EnvField.SMTP_USER),
+      password: this.configService.getOrThrow<string>(EnvField.SMTP_PASSWORD),
+      sender: this.configService.getOrThrow<string>(EnvField.SMTP_SENDER),
     };
   }
 }

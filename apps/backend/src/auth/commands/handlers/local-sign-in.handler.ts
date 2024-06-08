@@ -2,7 +2,11 @@ import { UnauthorizedException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import { UserRepository } from '../../../orm';
-import { JwtTokenService, PasswordService } from '../../services';
+import {
+  JwtTokenService,
+  PasswordService,
+  SigninMailService,
+} from '../../services';
 import { LocalSignInCommand } from '../impl';
 
 @CommandHandler(LocalSignInCommand)
@@ -10,7 +14,8 @@ export class LocalSignInHandler implements ICommandHandler<LocalSignInCommand> {
   constructor(
     private readonly passwordService: PasswordService,
     private readonly jwtTokenService: JwtTokenService,
-    private readonly userRepository: UserRepository
+    private readonly userRepository: UserRepository,
+    private readonly signinMailService: SigninMailService
   ) {}
 
   async execute(command: LocalSignInCommand) {
@@ -37,9 +42,8 @@ export class LocalSignInHandler implements ICommandHandler<LocalSignInCommand> {
       throw new UnauthorizedException('Username and password do not match.');
     }
 
-    return {
-      accessToken: this.jwtTokenService.issueAccessToken(exist),
-      refreshToken: this.jwtTokenService.issueRefreshToken(exist),
-    };
+    await this.signinMailService.sendSignInMail(exist);
+
+    return { message: 'ok' };
   }
 }

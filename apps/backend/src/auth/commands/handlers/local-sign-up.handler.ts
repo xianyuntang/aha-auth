@@ -4,7 +4,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import dayjs from 'dayjs';
 
 import { UserRepository } from '../../../orm';
-import { JwtTokenService, PasswordService } from '../../services';
+import { PasswordService, SigninMailService } from '../../services';
 import { LocalSignUpCommand } from '../impl';
 
 @CommandHandler(LocalSignUpCommand)
@@ -13,7 +13,7 @@ export class LocalSignUpHandler implements ICommandHandler<LocalSignUpCommand> {
     private readonly em: EntityManager,
     private readonly userRepository: UserRepository,
     private readonly passwordService: PasswordService,
-    private readonly jwtTokenService: JwtTokenService
+    private readonly signinMailService: SigninMailService
   ) {}
   async execute(command: LocalSignUpCommand) {
     const { email, password } = command;
@@ -37,9 +37,8 @@ export class LocalSignUpHandler implements ICommandHandler<LocalSignUpCommand> {
       });
     });
 
-    return {
-      accessToken: this.jwtTokenService.issueAccessToken(user),
-      refreshToken: this.jwtTokenService.issueRefreshToken(user),
-    };
+    await this.signinMailService.sendSignInMail(user);
+
+    return { message: 'ok' };
   }
 }

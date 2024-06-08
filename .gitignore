@@ -41,9 +41,9 @@ Thumbs.db
 .nx/cache
 .nx/workspace-data
 
+# dotenv
+.env*.local
+
 # Next.js
 .next
 out
-
-# dotenv
-.env*.local
