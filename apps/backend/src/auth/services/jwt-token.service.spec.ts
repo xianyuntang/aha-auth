@@ -14,6 +14,7 @@ const mockedUser: User = {
   email: 'john@example.com',
   profile: { firstName: 'John', lastName: 'Doe' } as UserProfile,
   id: '1',
+  signInCount: 1,
 };
 
 const mockedAppConfigService = {

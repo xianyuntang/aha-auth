@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
-import { SignInResponse } from 'common';
+import { AuthorizedUser, SignInResponse } from 'common';
 import { Response } from 'express';
 import { Profile } from 'passport-google-oauth20';
 
@@ -18,7 +18,9 @@ import {
   LocalSignInCommand,
   LocalSignUpCommand,
   OauthSignInCommand,
+  ResetPasswordCommand,
 } from './commands/impl';
+import { ResetPasswordRequestDto } from './dto';
 import { LocalSignInRequestDto } from './dto/local-sign-in.dto';
 import { LocalSignUpRequestDto } from './dto/local-sign-up.dto';
 import { GoogleOAuthGuard } from './guards/google-oauth.guard';
@@ -47,7 +49,7 @@ export class AuthController {
     dto: LocalSignUpRequestDto
   ): Promise<SignInResponse> {
     return this.commandBus.execute(
-      new LocalSignUpCommand(dto.email, dto.password, dto.confirmPassword)
+      new LocalSignUpCommand(dto.email, dto.password)
     );
   }
 
@@ -69,5 +71,15 @@ export class AuthController {
       new OauthSignInCommand(user)
     );
     res.setHeader('Location', url);
+  }
+
+  @Post('reset-password')
+  async resetPassword(
+    @CurrentUser() user: AuthorizedUser,
+    @Body() dto: ResetPasswordRequestDto
+  ) {
+    return this.commandBus.execute(
+      new ResetPasswordCommand(dto.email, dto.oldPassword, dto.password)
+    );
   }
 }

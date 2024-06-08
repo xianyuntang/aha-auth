@@ -3,6 +3,7 @@ import {
   Entity,
   OneToMany,
   OneToOne,
+  Opt,
   Property,
 } from '@mikro-orm/core';
 
@@ -21,6 +22,10 @@ export class User extends CustomBaseEntity {
 
   @Property()
   lastLoggedAt!: Date;
+
+  // sing up action as sign in actions
+  @Property({ default: 1, onCreate: () => 1 })
+  signInCount!: Opt & number;
 
   @OneToOne(() => UserProfile, 'user', {
     orphanRemoval: true,

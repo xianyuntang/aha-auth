@@ -1,3 +1,5 @@
+import { wrap } from '@mikro-orm/core';
+import { EntityManager } from '@mikro-orm/postgresql';
 import { UnauthorizedException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
@@ -12,8 +14,8 @@ import { LocalSignInCommand } from '../impl';
 @CommandHandler(LocalSignInCommand)
 export class LocalSignInHandler implements ICommandHandler<LocalSignInCommand> {
   constructor(
+    private readonly em: EntityManager,
     private readonly passwordService: PasswordService,
-    private readonly jwtTokenService: JwtTokenService,
     private readonly userRepository: UserRepository,
     private readonly signinMailService: SigninMailService
   ) {}
@@ -21,28 +23,37 @@ export class LocalSignInHandler implements ICommandHandler<LocalSignInCommand> {
   async execute(command: LocalSignInCommand) {
     const { email, password } = command;
 
-    const exist = await this.userRepository.findOneOrFail(
-      {
-        email,
-      },
-      {
-        failHandler: () =>
-          new UnauthorizedException('Username and password do not match.'),
+    const user = await this.em.transactional(async () => {
+      const exist = await this.userRepository.findOneOrFail(
+        {
+          email,
+        },
+        {
+          failHandler: () =>
+            new UnauthorizedException('Username and password do not match.'),
+        }
+      );
+
+      // Throw error if user is registered by oauth
+      if (!exist.password) {
+        throw new UnauthorizedException();
       }
-    );
 
-    const hashedPassword = await this.passwordService.hashPassword(password);
+      const isPasswordMatched = await this.passwordService.isPasswordMatched(
+        password,
+        exist.password
+      );
 
-    const isPasswordMatched = await this.passwordService.isPasswordMatched(
-      password,
-      hashedPassword
-    );
+      if (!isPasswordMatched) {
+        throw new UnauthorizedException('Username and password do not match.');
+      }
 
-    if (!isPasswordMatched) {
-      throw new UnauthorizedException('Username and password do not match.');
-    }
+      wrap(exist).assign({ signInCount: exist.signInCount + 1 });
 
-    await this.signinMailService.sendSignInMail(exist);
+      return exist;
+    });
+
+    await this.signinMailService.sendSignInMail(user);
 
     return { message: 'ok' };
   }

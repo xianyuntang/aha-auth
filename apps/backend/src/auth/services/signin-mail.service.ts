@@ -1,7 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import urljoin from 'url-join';
 
-import { AppConfigService } from '../../app-config';
 import { MailerService } from '../../mailer';
 import { User } from '../../orm';
 import { JwtTokenService } from './jwt-token.service';
@@ -14,7 +12,7 @@ export class SigninMailService {
   ) {}
 
   async sendSignInMail(user: User) {
-    const signInLink = this.jwtTokenService.getSignInLink(user);
+    const signInLink = await this.jwtTokenService.getSignInLink(user);
 
     await this.mailerService.sendMail({
       to: user.email,

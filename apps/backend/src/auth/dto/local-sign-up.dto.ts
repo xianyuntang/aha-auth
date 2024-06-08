@@ -17,6 +17,7 @@ export class LocalSignUpRequestDto implements LocalSignUpRequest {
   @MaxLength(72)
   password!: string;
 
+  // Make share confirmPassword is equal to password
   @MatchesWithProperty(LocalSignUpRequestDto, (dto) => dto.password)
   confirmPassword!: string;
 }
