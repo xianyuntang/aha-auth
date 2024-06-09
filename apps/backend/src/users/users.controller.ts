@@ -1,10 +1,11 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 
 import {
   CountActiveUsersQuery,
   CountAverageActiveUsersQuery,
   CountUsersQuery,
+  GetUsersQuery,
 } from './queries/impl';
 
 @Controller('users')
@@ -24,5 +25,10 @@ export class UsersController {
   @Get('average')
   async countAverageActiveUsers() {
     return this.queryBus.execute(new CountAverageActiveUsersQuery());
+  }
+
+  @Get()
+  async getUsers(@Query('cursor') cursor?: string) {
+    return this.queryBus.execute(new GetUsersQuery(cursor));
   }
 }
