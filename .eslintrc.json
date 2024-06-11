@@ -19,6 +19,7 @@
             ]
           }
         ],
+        "eqeqeq": "error",
         "simple-import-sort/imports": "error",
         "simple-import-sort/exports": "error"
       }
@@ -26,7 +27,16 @@
     {
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nx/typescript"],
-      "rules": {}
+      "rules": {
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          {
+            "argsIgnorePattern": "^_$",
+            "varsIgnorePattern": "^_$",
+            "caughtErrorsIgnorePattern": "^_$"
+          }
+        ]
+      }
     },
     {
       "files": ["*.js", "*.jsx"],

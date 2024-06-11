@@ -1,8 +1,7 @@
 import { wrap } from '@mikro-orm/core';
-import { EntityManager, NotFoundError } from '@mikro-orm/postgresql';
+import { EntityManager } from '@mikro-orm/postgresql';
 import { NotFoundException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import Error from 'next/error';
 
 import { UserRepository } from '../../../orm';
 import { UpdateUserProfileCommand } from '../impl';
