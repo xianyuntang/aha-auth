@@ -1,6 +1,10 @@
-import { Controller, Get, Query } from '@nestjs/common';
-import { QueryBus } from '@nestjs/cqrs';
+import { Body, Controller, Get, Put, Query } from '@nestjs/common';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { AuthorizedUser } from 'common';
 
+import { CurrentUser } from '../auth';
+import { UpdateUserProfileCommand } from './commands/impl';
+import { UpdateUserProfileRequestDto } from './dto/update-user-profile.dto';
 import {
   CountActiveUsersQuery,
   CountAverageActiveUsersQuery,
@@ -10,7 +14,10 @@ import {
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly queryBus: QueryBus) {}
+  constructor(
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus
+  ) {}
 
   @Get('count')
   async countUser() {
@@ -30,5 +37,15 @@ export class UsersController {
   @Get()
   async getUsers(@Query('cursor') cursor?: string) {
     return this.queryBus.execute(new GetUsersQuery(cursor));
+  }
+
+  @Put('me')
+  async updateMyProfile(
+    @CurrentUser() user: AuthorizedUser,
+    @Body() dto: UpdateUserProfileRequestDto
+  ) {
+    return this.commandBus.execute(
+      new UpdateUserProfileCommand(user.id, dto.firstName, dto.lastName)
+    );
   }
 }
