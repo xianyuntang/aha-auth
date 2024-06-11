@@ -4,7 +4,7 @@ import { UnauthorizedException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import { UserRepository } from '../../../orm';
-import { PasswordService, SigninMailService } from '../../services';
+import { PasswordService, SignInMailService } from '../../services';
 import { LocalSignInCommand } from '../impl';
 
 @CommandHandler(LocalSignInCommand)
@@ -13,7 +13,7 @@ export class LocalSignInHandler implements ICommandHandler<LocalSignInCommand> {
     private readonly em: EntityManager,
     private readonly passwordService: PasswordService,
     private readonly userRepository: UserRepository,
-    private readonly signinMailService: SigninMailService
+    private readonly signinMailService: SignInMailService
   ) {}
 
   async execute(command: LocalSignInCommand) {

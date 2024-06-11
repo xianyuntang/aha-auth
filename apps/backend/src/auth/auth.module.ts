@@ -10,7 +10,7 @@ import { JwtAuthGuard } from './guards';
 import {
   JwtTokenService,
   PasswordService,
-  SigninMailService,
+  SignInMailService,
 } from './services';
 import { GoogleOauthStrategy, JwtStrategy } from './strategies';
 
@@ -27,7 +27,7 @@ import { GoogleOauthStrategy, JwtStrategy } from './strategies';
     JwtTokenService,
     JwtStrategy,
     GoogleOauthStrategy,
-    SigninMailService,
+    SignInMailService,
     { provide: 'APP_GUARD', useClass: JwtAuthGuard },
   ],
 })

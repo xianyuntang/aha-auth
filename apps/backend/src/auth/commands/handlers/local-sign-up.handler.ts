@@ -3,7 +3,7 @@ import { ConflictException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import { UserRepository } from '../../../orm';
-import { PasswordService, SigninMailService } from '../../services';
+import { PasswordService, SignInMailService } from '../../services';
 import { LocalSignUpCommand } from '../impl';
 
 @CommandHandler(LocalSignUpCommand)
@@ -12,7 +12,7 @@ export class LocalSignUpHandler implements ICommandHandler<LocalSignUpCommand> {
     private readonly em: EntityManager,
     private readonly userRepository: UserRepository,
     private readonly passwordService: PasswordService,
-    private readonly signinMailService: SigninMailService
+    private readonly signinMailService: SignInMailService
   ) {}
   async execute(command: LocalSignUpCommand) {
     const { email, password } = command;

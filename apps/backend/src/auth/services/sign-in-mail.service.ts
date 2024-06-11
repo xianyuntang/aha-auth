@@ -5,7 +5,7 @@ import { User } from '../../orm';
 import { JwtTokenService } from './jwt-token.service';
 
 @Injectable()
-export class SigninMailService {
+export class SignInMailService {
   constructor(
     private readonly mailerService: MailerService,
     private readonly jwtTokenService: JwtTokenService
