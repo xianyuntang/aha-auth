@@ -40,7 +40,6 @@ export interface LinkResetPasswordRequest {
 }
 
 export interface ResetPasswordRequest {
-  email: string;
   oldPassword: string;
   password: string;
   confirmPassword: string;

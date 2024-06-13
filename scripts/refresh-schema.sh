@@ -16,4 +16,4 @@ if [ "$1" = "--no-seed" ]; then
 fi
 
 echo "$color>>> Seed data$reset"
-node dist/apps/backend/seed.js
+node dist/apps/backend/seed-dev.js

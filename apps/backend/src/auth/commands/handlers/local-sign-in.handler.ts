@@ -2,6 +2,7 @@ import { wrap } from '@mikro-orm/core';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { UnauthorizedException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { OK_RESPONSE } from 'common';
 
 import { UserRepository } from '../../../orm';
 import { PasswordService, SignInMailService } from '../../services';
@@ -51,6 +52,6 @@ export class LocalSignInHandler implements ICommandHandler<LocalSignInCommand> {
 
     await this.signinMailService.sendSignInMail(user);
 
-    return { message: 'ok' };
+    return OK_RESPONSE;
   }
 }

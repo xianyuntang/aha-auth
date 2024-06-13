@@ -2,6 +2,7 @@ import { wrap } from '@mikro-orm/core';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { UnauthorizedException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { OK_RESPONSE } from 'common';
 
 import { User } from '../../../orm';
 import { PasswordService } from '../../services';
@@ -49,6 +50,6 @@ export class ResetPasswordHandler
       });
     });
 
-    return { message: 'ok' };
+    return OK_RESPONSE;
   }
 }

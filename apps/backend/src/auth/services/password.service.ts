@@ -5,7 +5,13 @@ import { BCRYPT_ROUNDS } from '../auth.constant';
 
 @Injectable()
 export class PasswordService {
-  async hashPassword(password: string) {
+  /**
+   * Hashes a password with bcrypt.
+   *
+   * @param {string} password
+   * @returns {Promise<string>}
+   */
+  async hashPassword(password: string): Promise<string> {
     return bcryptjs.hash(password, await bcryptjs.genSalt(BCRYPT_ROUNDS));
   }
 
@@ -16,7 +22,10 @@ export class PasswordService {
    * @param {string} hashedPassword
    * @returns {Promise<boolean>}
    */
-  async isPasswordMatched(password: string, hashedPassword: string) {
+  async isPasswordMatched(
+    password: string,
+    hashedPassword: string
+  ): Promise<boolean> {
     return bcryptjs.compare(password, hashedPassword);
   }
 }

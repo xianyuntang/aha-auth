@@ -2,6 +2,7 @@ import { wrap } from '@mikro-orm/core';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { NotFoundException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { OK_RESPONSE } from 'common';
 
 import { UserRepository } from '../../../orm';
 import { UpdateUserProfileCommand } from '../impl';
@@ -26,6 +27,6 @@ export class UpdateUserProfileHandler
       wrap(exist).assign({ profile: { firstName, lastName } });
     });
 
-    return { message: 'ok' };
+    return OK_RESPONSE;
   }
 }

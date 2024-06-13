@@ -1,6 +1,7 @@
 import { EntityManager } from '@mikro-orm/postgresql';
 import { ConflictException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { OK_RESPONSE } from 'common';
 
 import { UserRepository } from '../../../orm';
 import { PasswordService, SignInMailService } from '../../services';
@@ -38,6 +39,6 @@ export class LocalSignUpHandler implements ICommandHandler<LocalSignUpCommand> {
 
     await this.signinMailService.sendSignInMail(user);
 
-    return { message: 'ok' };
+    return OK_RESPONSE;
   }
 }

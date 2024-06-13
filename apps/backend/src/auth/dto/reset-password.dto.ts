@@ -1,15 +1,7 @@
-import {
-  IsEmail,
-  IsString,
-  IsStrongPassword,
-  MaxLength,
-} from 'class-validator';
+import { IsString, IsStrongPassword, MaxLength } from 'class-validator';
 import { MatchesWithProperty, ResetPasswordRequest } from 'common';
 
 export class ResetPasswordRequestDto implements ResetPasswordRequest {
-  @IsEmail()
-  email!: string;
-
   @IsString()
   oldPassword!: string;
 

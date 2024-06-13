@@ -27,6 +27,10 @@ module.exports = {
           entryName: 'seed',
           entryPath: 'apps/backend/src/db/scripts/seed.ts',
         },
+        {
+          entryName: 'seed-dev',
+          entryPath: 'apps/backend/src/db/scripts/seed-dev.ts',
+        },
       ],
     }),
     new CopyPlugin({

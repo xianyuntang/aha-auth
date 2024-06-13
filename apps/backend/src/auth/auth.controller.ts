@@ -76,12 +76,13 @@ export class AuthController {
   }
 
   @Post('reset-password')
+  @HttpCode(HttpStatus.OK)
   async resetPassword(
     @CurrentUser() user: AuthorizedUser,
     @Body() dto: ResetPasswordRequestDto
   ) {
     return this.commandBus.execute(
-      new ResetPasswordCommand(dto.email, dto.oldPassword, dto.password)
+      new ResetPasswordCommand(user.email, dto.oldPassword, dto.password)
     );
   }
 }
