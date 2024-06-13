@@ -4,7 +4,7 @@ import { AuthorizedUser } from 'common';
 
 import { CurrentUser } from '../auth';
 import { UpdateUserProfileCommand } from './commands/impl';
-import { UpdateUserProfileRequestDto } from './dto/update-user-profile.dto';
+import { UpdateUserProfileRequestDto } from './dto';
 import {
   CountActiveUsersQuery,
   CountAverageActiveUsersQuery,

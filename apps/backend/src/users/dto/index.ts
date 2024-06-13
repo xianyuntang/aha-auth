@@ -1,1 +1,1 @@
-export * from './';
+export * from './update-my-profile.dto';

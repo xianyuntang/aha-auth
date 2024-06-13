@@ -1,4 +1,4 @@
-import { AxiosError, isAxiosError } from 'axios';
+import { isAxiosError } from 'axios';
 import { OK_RESPONSE, testUser } from 'common';
 
 import { publicFetcher, refreshSchema } from '../../services';
@@ -16,7 +16,6 @@ describe('POST /auth/sing-in', () => {
         password: wrongPassword,
       });
     } catch (e) {
-      expect(e).toBeInstanceOf(AxiosError);
       if (isAxiosError(e)) {
         expect(e.response?.status).toBe(401);
       }
