@@ -1,4 +1,12 @@
 /* eslint-disable */
+
+import dotenv from 'dotenv';
+import path from 'path';
+
+dotenv.config({
+  path: path.resolve('apps', 'backend', `.env.test`),
+});
+
 export default {
   displayName: 'backend-e2e',
   preset: '../../jest.preset.js',

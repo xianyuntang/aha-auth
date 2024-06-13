@@ -1,8 +1,8 @@
-import axios from 'axios';
+import { publicFetcher } from '../services';
 
-describe('GET /api/ping', () => {
+describe('GET /ping', () => {
   it('should return a pong message', async () => {
-    const res = await axios.get(`/api/ping`);
+    const res = await publicFetcher.get(`/ping`);
 
     expect(res.status).toBe(200);
     expect(res.data).toEqual({ message: 'pong' });
