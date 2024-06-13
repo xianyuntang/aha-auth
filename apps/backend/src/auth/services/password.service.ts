@@ -9,6 +9,13 @@ export class PasswordService {
     return bcryptjs.hash(password, await bcryptjs.genSalt(BCRYPT_ROUNDS));
   }
 
+  /**
+   * Checks if the provided password matches the hashed password.
+   *
+   * @param {string} password
+   * @param {string} hashedPassword
+   * @returns {Promise<boolean>}
+   */
   async isPasswordMatched(password: string, hashedPassword: string) {
     return bcryptjs.compare(password, hashedPassword);
   }

@@ -13,7 +13,13 @@ export class JwtTokenService {
     private readonly jwtService: JwtService
   ) {}
 
-  async getSignInLink(user: User) {
+  /**
+   * Generates a sign-in link for the given user.
+   *
+   * @param {User} user
+   * @returns {Promise<string>}
+   */
+  async getSignInLink(user: User): Promise<string> {
     const {
       server: { externalUrl, prefix },
     } = this.appConfigService;
@@ -53,7 +59,13 @@ export class JwtTokenService {
     }
   }
 
-  issueAccessToken(user: User) {
+  /**
+   * Generates an access token for the given user.
+   *
+   * @param {User} user
+   * @returns {string}
+   */
+  issueAccessToken(user: User): string {
     const {
       jwt: { accessSecret, accessTokenExpiresIn },
     } = this.appConfigService;
@@ -82,7 +94,13 @@ export class JwtTokenService {
     );
   }
 
-  issueRefreshToken(user: User) {
+  /**
+   * Generates a refresh token for the given user.
+   *
+   * @param {User} user
+   * @returns {string}
+   */
+  issueRefreshToken(user: User): string {
     const {
       jwt: { refreshSecret, refreshTokenExpiresIn },
     } = this.appConfigService;
