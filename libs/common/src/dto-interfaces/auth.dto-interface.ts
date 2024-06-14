@@ -15,32 +15,16 @@ export interface SignInResponse {
   refreshToken: string;
 }
 
-export interface SendEmailCodeRequest {
-  email: string;
-}
-
-export interface CheckEmailCodeRequest {
-  email: string;
-  code: string;
-}
-
-export interface ValidateRedirectUrlRequest {
-  clientId: string;
-  redirectUrl: string;
-}
-
-export interface SendResetPasswordLinkRequest {
-  email: string;
-}
-
-export interface LinkResetPasswordRequest {
-  token: string;
-  password: string;
-  confirmPassword: string;
-}
-
 export interface ResetPasswordRequest {
   oldPassword: string;
   password: string;
   confirmPassword: string;
+}
+
+export interface RefreshTokenRequest {
+  token: string;
+}
+
+export interface RefreshTokenResponse {
+  accessToken: string;
 }

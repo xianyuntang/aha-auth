@@ -27,6 +27,8 @@ async function bootstrap() {
     })
   );
 
+  app.enableCors({ exposedHeaders: ['Location'] });
+
   await app.listen(port);
   Logger.log(`🚀 Application is running on: http://0.0.0.0:${port}/${prefix}`);
 }

@@ -18,11 +18,13 @@ import {
   LocalSignInCommand,
   LocalSignUpCommand,
   OauthSignInCommand,
+  RefreshTokenCommand,
   ResetPasswordCommand,
 } from './commands/impl';
 import {
   LocalSignInRequestDto,
   LocalSignUpRequestDto,
+  RefreshTokenRequestDto,
   ResetPasswordRequestDto,
 } from './dto';
 import { GoogleOAuthGuard } from './guards/google-oauth.guard';
@@ -56,7 +58,7 @@ export class AuthController {
   }
 
   @Public()
-  @Post('sign-in/google')
+  @Get('sign-in/google')
   @UseGuards(GoogleOAuthGuard)
   googleSignIn() {
     return undefined;
@@ -84,5 +86,12 @@ export class AuthController {
     return this.commandBus.execute(
       new ResetPasswordCommand(user.email, dto.oldPassword, dto.password)
     );
+  }
+
+  @Public()
+  @Post('refresh-token')
+  @HttpCode(HttpStatus.OK)
+  async refreshToken(@Body() dto: RefreshTokenRequestDto) {
+    return this.commandBus.execute(new RefreshTokenCommand(dto.token));
   }
 }

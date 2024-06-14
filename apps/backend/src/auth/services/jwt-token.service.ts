@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthorizedUser, JwtTokenPayload } from 'common';
+import dayjs from 'dayjs';
 import urljoin from 'url-join';
 
 import { AppConfigService } from '../../app-config';
@@ -21,14 +22,13 @@ export class JwtTokenService {
    */
   async getSignInLink(user: User): Promise<string> {
     const {
-      server: { externalUrl, prefix },
+      server: { externalUrl },
     } = this.appConfigService;
     const accessToken = this.issueAccessToken(user);
     const refreshToken = this.issueRefreshToken(user);
 
     return urljoin(
       externalUrl,
-      prefix,
       'sign-in',
       `?accessToken=${accessToken}`,
       `?refreshToken=${refreshToken}`
@@ -127,5 +127,14 @@ export class JwtTokenService {
         subject: id,
       }
     );
+  }
+  /**
+   * Determines if the given token has already expired.
+   *
+   * @param {number} exp
+   * @return {boolean}
+   */
+  isTokenExpired(exp: number): boolean {
+    return exp < dayjs().unix();
   }
 }
