@@ -4,10 +4,8 @@ FROM node:20.9.0-alpine AS base
 # Builder dependencies
 FROM base AS builder-deps
 WORKDIR /app
-ARG NPM_AUTH_TOKEN
 RUN apk add --no-cache libc6-compat
 COPY prepare.sh ./
-COPY .npmrc-ci ./.npmrc
 COPY package.json package-lock.json ./
 RUN npm ci
 
