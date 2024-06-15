@@ -44,3 +44,14 @@ fetcher.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+fetcher.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response.status === 401) {
+      location.replace('/sign-in');
+    }
+  }
+);

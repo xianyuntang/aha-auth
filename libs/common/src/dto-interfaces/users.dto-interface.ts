@@ -14,3 +14,12 @@ export interface GetUsersResponse {
   count: number;
   nextCursor: string | null;
 }
+
+export interface GetMeResponse {
+  id: string;
+  email: string;
+  profile: {
+    firstName?: string;
+    lastName?: string;
+  };
+}

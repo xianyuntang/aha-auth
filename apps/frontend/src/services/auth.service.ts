@@ -3,10 +3,11 @@ import {
   OK_RESPONSE,
   RefreshTokenRequest,
   RefreshTokenResponse,
+  ResetPasswordRequest,
 } from 'common';
 import urljoin from 'url-join';
 
-import { apiUrl, publicFetcher } from '../core';
+import { apiUrl, fetcher, publicFetcher } from '../core';
 
 export const signIn = async (email: string, password: string) => {
   const { data } = await publicFetcher.post<typeof OK_RESPONSE>(
@@ -28,4 +29,25 @@ export const refreshAccessToken = async (token: string) => {
   );
 
   return data;
+};
+
+export const resetPassword = async (
+  oldPassword: string,
+  password: string,
+  confirmPassword: string
+) => {
+  try {
+    const { data } = await fetcher.post<typeof OK_RESPONSE>(
+      '/auth/reset-password',
+      {
+        oldPassword,
+        password,
+        confirmPassword,
+      } as ResetPasswordRequest
+    );
+    return data;
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
 };

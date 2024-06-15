@@ -9,6 +9,7 @@ import {
   CountActiveUsersQuery,
   CountAverageActiveUsersQuery,
   CountUsersQuery,
+  GetMeQuery,
   GetUsersQuery,
 } from './queries/impl';
 
@@ -18,6 +19,11 @@ export class UsersController {
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus
   ) {}
+
+  @Get('me')
+  async getMe(@CurrentUser() user: AuthorizedUser) {
+    return this.queryBus.execute(new GetMeQuery(user.id));
+  }
 
   @Get('count')
   async countUser() {

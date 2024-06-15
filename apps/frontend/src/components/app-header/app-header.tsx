@@ -3,35 +3,27 @@
 import { Button, Flex } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 
-import { useAuth } from '../../hooks';
-
 export const AppHeader = () => {
   const router = useRouter();
 
-  const { updateAccessToken, updateRefreshToken } = useAuth();
-
-  const onDashboardLinkClick = () => {
+  const handleDashboardClick = () => {
     router.push('dashboard');
   };
 
-  const onUserStatisticsLinkClick = () => {
+  const handleStatisticsClick = () => {
     router.push('statistics');
   };
 
-  const onLogoutClick = () => {
-    updateAccessToken('');
-    updateRefreshToken('');
-    router.push('/');
+  const handleProfileClick = () => {
+    router.push('profile');
   };
 
   return (
     <Flex justify="space-between" pos="fixed">
       <Flex>
-        <Button onClick={onDashboardLinkClick}>Dashboard</Button>
-        <Button onClick={onUserStatisticsLinkClick}>User statistics</Button>
-      </Flex>
-      <Flex>
-        <Button onClick={onLogoutClick}>Logout</Button>
+        <Button onClick={handleProfileClick}>Profile</Button>
+        <Button onClick={handleDashboardClick}>Dashboard</Button>
+        <Button onClick={handleStatisticsClick}>statistics</Button>
       </Flex>
     </Flex>
   );
