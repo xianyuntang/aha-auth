@@ -1,6 +1,7 @@
 import { isAxiosError } from 'axios';
 import {
   LocalSignInRequest,
+  LocalSignUpRequest,
   OK_RESPONSE,
   RefreshTokenRequest,
   RefreshTokenResponse,
@@ -15,6 +16,26 @@ export const signIn = async (email: string, password: string) => {
     const { data } = await publicFetcher.post<typeof OK_RESPONSE>(
       '/auth/sign-in',
       { email, password } as LocalSignInRequest
+    );
+
+    return data;
+  } catch (e) {
+    if (isAxiosError(e)) {
+      console.error(e.response?.data);
+    }
+    throw e;
+  }
+};
+
+export const signUp = async (
+  email: string,
+  password: string,
+  confirmPassword: string
+) => {
+  try {
+    const { data } = await publicFetcher.post<typeof OK_RESPONSE>(
+      '/auth/sign-up',
+      { email, password, confirmPassword } as LocalSignUpRequest
     );
 
     return data;

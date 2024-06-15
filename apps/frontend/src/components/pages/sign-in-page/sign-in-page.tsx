@@ -31,12 +31,12 @@ const SignInPage = () => {
     }
   }, [isLogin, router]);
 
-  const onSignInClick = async () => {
+  const handleSignInClick = async () => {
     await authService.signIn(email, password);
     setIsEmailSent(true);
   };
 
-  const onGoogleSignInClick = async () => {
+  const handleGoogleSignInClick = async () => {
     router.replace(authService.getGoogleSignInUrl());
   };
 
@@ -47,20 +47,22 @@ const SignInPage = () => {
       ) : (
         <>
           <Input
+            type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <Input
+            type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button w="100%" onClick={onSignInClick}>
+          <Button w="100%" onClick={handleSignInClick}>
             Sign In
           </Button>
 
-          <Button w="100%" onClick={onGoogleSignInClick}>
+          <Button w="100%" onClick={handleGoogleSignInClick}>
             Google Sign In
           </Button>
         </>
