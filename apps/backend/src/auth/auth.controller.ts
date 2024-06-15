@@ -66,6 +66,7 @@ export class AuthController {
 
   @Public()
   @Get('sign-in/google/callback')
+  @HttpCode(HttpStatus.PERMANENT_REDIRECT)
   @UseGuards(GoogleOAuthGuard)
   async googleSignInCallback(
     @Res({ passthrough: true }) res: Response,

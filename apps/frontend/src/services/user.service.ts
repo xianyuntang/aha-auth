@@ -37,7 +37,7 @@ export const getMe = async () => {
 
 export const updateMe = async (firstName: string, lastName: string) => {
   try {
-    const { data } = await fetcher.put<typeof OK_RESPONSE>('/users/active', {
+    const { data } = await fetcher.put<typeof OK_RESPONSE>('/users/me', {
       firstName,
       lastName,
     } as UpdateMyProfileRequest);
