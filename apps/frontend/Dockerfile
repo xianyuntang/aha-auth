@@ -12,6 +12,8 @@ RUN npm ci
 # Build the source code
 FROM base AS builder
 WORKDIR /app
+ENV NODE_ENV production
+
 COPY --from=builder-deps /app/node_modules ./node_modules/
 COPY . ./
 RUN npm run frontend:build
