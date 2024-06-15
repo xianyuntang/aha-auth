@@ -41,20 +41,23 @@ const ResetPasswordModal = ({
           <FormControl>
             <FormLabel>Old password</FormLabel>
             <Input
+              type="password"
               value={oldPassword}
               onChange={(v) => setOldPassword(v.target.value)}
             />
           </FormControl>
           <FormControl>
-            <FormLabel>Last name</FormLabel>
+            <FormLabel>New password</FormLabel>
             <Input
+              type="password"
               value={password}
               onChange={(v) => setPassword(v.target.value)}
             />
           </FormControl>
           <FormControl>
-            <FormLabel>Last name</FormLabel>
+            <FormLabel>Confirm password</FormLabel>
             <Input
+              type="password"
               value={confirmPassword}
               onChange={(v) => setConfirmPassword(v.target.value)}
             />

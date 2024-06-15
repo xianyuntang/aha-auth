@@ -1,3 +1,4 @@
+import { Mutex } from 'async-mutex';
 import axios from 'axios';
 import { JwtTokenPayload } from 'common';
 import dayjs from 'dayjs';
@@ -6,6 +7,8 @@ import jwt from 'jsonwebtoken';
 
 import { authService } from '../services';
 import { apiUrl } from './environment';
+
+const mutex = new Mutex();
 
 export const publicFetcher = axios.create({ baseURL: apiUrl });
 
@@ -24,6 +27,7 @@ fetcher.interceptors.request.use(
   async (config) => {
     const accessToken = Cookies.get('accessToken');
     if (accessToken) {
+      await mutex.acquire();
       if (isAccessTokenNearExpired()) {
         const refreshToken = Cookies.get('refreshToken');
         if (!refreshToken) {
@@ -33,11 +37,12 @@ fetcher.interceptors.request.use(
           refreshToken
         );
         Cookies.set('accessToken', accessToken);
+        config.headers.setAuthorization(`Bearer ${accessToken}`);
       } else {
         config.headers.setAuthorization(`Bearer ${accessToken}`);
       }
     }
-
+    mutex.release();
     return config;
   },
   (error) => {
