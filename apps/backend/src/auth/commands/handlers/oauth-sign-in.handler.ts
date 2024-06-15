@@ -49,6 +49,10 @@ export class OauthSignInHandler implements ICommandHandler<OauthSignInCommand> {
             oauthUsers: { provider },
             signInHistories: {},
           });
+        } else {
+          wrap(user).assign({
+            signInHistories: {},
+          });
         }
       } else {
         return this.userRepository.create({
