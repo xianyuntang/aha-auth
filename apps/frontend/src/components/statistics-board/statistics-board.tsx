@@ -11,7 +11,7 @@ const StatisticsBoard = () => {
   return (
     <Flex flexDir="column" w="400px">
       <Flex justify="space-between">
-        <Box>Registered</Box>
+        <Box>Registered users</Box>
         <Box>{data?.count}</Box>
       </Flex>
       <Flex justify="space-between">

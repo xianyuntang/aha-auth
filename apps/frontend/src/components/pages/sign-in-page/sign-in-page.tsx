@@ -1,11 +1,12 @@
 'use client';
 
-import { Button, Flex, Input, Text } from '@chakra-ui/react';
+import { Button, Flex, Input } from '@chakra-ui/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { useAuth } from '../../../hooks';
 import { authService } from '../../../services';
+import ResentEmailHelper from '../../resent-email-helper';
 
 const SignInPage = () => {
   const [email, setEmail] = useState<string>('');
@@ -43,7 +44,7 @@ const SignInPage = () => {
   return (
     <Flex justify="center" direction="column" align="center" gap={4}>
       {isEmailSent ? (
-        <Text>Please check your email to confirm sign in</Text>
+        <ResentEmailHelper onClick={handleSignInClick} />
       ) : (
         <>
           <Input

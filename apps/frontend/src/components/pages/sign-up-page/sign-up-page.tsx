@@ -1,10 +1,11 @@
 'use client';
 
-import { Button, Flex, Input, Text } from '@chakra-ui/react';
+import { Button, Flex, Input } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { authService } from '../../../services';
+import ResentEmailHelper from '../../resent-email-helper';
 
 const SignInPage = () => {
   const [email, setEmail] = useState<string>('');
@@ -14,9 +15,13 @@ const SignInPage = () => {
 
   const router = useRouter();
 
-  const onSignUpClick = async () => {
+  const handleSignUpClick = async () => {
     await authService.signUp(email, password, confirmPassword);
     setIsEmailSent(true);
+  };
+
+  const handleSignInClick = async () => {
+    await authService.signIn(email, password);
   };
 
   const handleGoogleSignInClick = async () => {
@@ -26,7 +31,7 @@ const SignInPage = () => {
   return (
     <Flex justify="center" direction="column" align="center" gap={4}>
       {isEmailSent ? (
-        <Text>Please check your email to confirm sign in</Text>
+        <ResentEmailHelper onClick={handleSignInClick} />
       ) : (
         <>
           <Input
@@ -47,7 +52,7 @@ const SignInPage = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-          <Button onClick={onSignUpClick} w="100%">
+          <Button onClick={handleSignUpClick} w="100%">
             Sign Up
           </Button>
 
