@@ -10,10 +10,6 @@ export const AppHeader = () => {
     router.push('dashboard');
   };
 
-  const handleStatisticsClick = () => {
-    router.push('statistics');
-  };
-
   const handleProfileClick = () => {
     router.push('profile');
   };
@@ -23,7 +19,6 @@ export const AppHeader = () => {
       <Flex>
         <Button onClick={handleProfileClick}>Profile</Button>
         <Button onClick={handleDashboardClick}>Dashboard</Button>
-        <Button onClick={handleStatisticsClick}>statistics</Button>
       </Flex>
     </Flex>
   );

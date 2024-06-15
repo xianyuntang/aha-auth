@@ -1,6 +1,8 @@
+import { isAxiosError } from 'axios';
 import {
   GetMeResponse,
   GetUsersResponse,
+  GetUsersStatisticsResponse,
   OK_RESPONSE,
   UpdateMyProfileRequest,
 } from 'common';
@@ -14,7 +16,9 @@ export const getUsers = async (cursor?: string) => {
     });
     return data;
   } catch (e) {
-    console.error(e);
+    if (isAxiosError(e)) {
+      console.error(e.response?.data);
+    }
     throw e;
   }
 };
@@ -24,20 +28,38 @@ export const getMe = async () => {
     const { data } = await fetcher.get<GetMeResponse>('/users/me', {});
     return data;
   } catch (e) {
-    console.error(e);
+    if (isAxiosError(e)) {
+      console.error(e.response?.data);
+    }
     throw e;
   }
 };
 
 export const updateMe = async (firstName: string, lastName: string) => {
   try {
-    const { data } = await fetcher.put<typeof OK_RESPONSE>('/users/me', {
+    const { data } = await fetcher.put<typeof OK_RESPONSE>('/users/active', {
       firstName,
       lastName,
     } as UpdateMyProfileRequest);
     return data;
   } catch (e) {
-    console.error(e);
+    if (isAxiosError(e)) {
+      console.error(e.response?.data);
+    }
+    throw e;
+  }
+};
+
+export const getUsersStatistics = async () => {
+  try {
+    const { data } = await fetcher.get<GetUsersStatisticsResponse>(
+      '/users/statistics'
+    );
+    return data;
+  } catch (e) {
+    if (isAxiosError(e)) {
+      console.error(e.response?.data);
+    }
     throw e;
   }
 };

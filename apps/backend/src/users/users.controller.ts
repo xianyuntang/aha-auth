@@ -2,15 +2,13 @@ import { Body, Controller, Get, Put, Query } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { AuthorizedUser } from 'common';
 
-import { CurrentUser } from '../auth';
+import { CurrentUser, Public } from '../auth';
 import { UpdateUserProfileCommand } from './commands/impl';
 import { UpdateUserProfileRequestDto } from './dto';
 import {
-  CountActiveUsersQuery,
-  CountAverageActiveUsersQuery,
-  CountUsersQuery,
   GetMeQuery,
   GetUsersQuery,
+  GetUsersStatisticsQuery,
 } from './queries/impl';
 
 @Controller('users')
@@ -25,19 +23,10 @@ export class UsersController {
     return this.queryBus.execute(new GetMeQuery(user.id));
   }
 
-  @Get('count')
+  @Public()
+  @Get('statistics')
   async countUser() {
-    return this.queryBus.execute(new CountUsersQuery());
-  }
-
-  @Get('active')
-  async countActiveUsers() {
-    return this.queryBus.execute(new CountActiveUsersQuery());
-  }
-
-  @Get('average')
-  async countAverageActiveUsers() {
-    return this.queryBus.execute(new CountAverageActiveUsersQuery());
+    return this.queryBus.execute(new GetUsersStatisticsQuery());
   }
 
   @Get()

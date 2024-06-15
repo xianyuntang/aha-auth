@@ -8,7 +8,7 @@ export interface GetUsersResponse {
     id: string;
     email: string;
     signUpAt: string;
-    lastSignInAt: string;
+    lastSignInAt: string | null;
     signInCount: number;
   }[];
   count: number;
@@ -22,4 +22,10 @@ export interface GetMeResponse {
     firstName?: string;
     lastName?: string;
   };
+}
+
+export interface GetUsersStatisticsResponse {
+  count: number;
+  average: number;
+  active: number;
 }

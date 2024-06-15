@@ -7,6 +7,7 @@ import { useQuery } from 'react-query';
 import { useImmer } from 'use-immer';
 
 import { userService } from '../../../services';
+import StatisticsBoard from '../../statistics-board';
 import UsersTable from '../../users-table';
 
 const DashboardPage = () => {
@@ -31,7 +32,8 @@ const DashboardPage = () => {
   }, [data, setTableData]);
 
   return (
-    <Flex justify="center" direction="column" align="center" gap={4}>
+    <Flex direction="column" align="start" gap={4} w="1200px">
+      <StatisticsBoard />
       <UsersTable
         data={tableData}
         onScrolldown={handleScrolldown}

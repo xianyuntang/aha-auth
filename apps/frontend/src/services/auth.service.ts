@@ -1,3 +1,4 @@
+import { isAxiosError } from 'axios';
 import {
   LocalSignInRequest,
   OK_RESPONSE,
@@ -10,12 +11,19 @@ import urljoin from 'url-join';
 import { apiUrl, fetcher, publicFetcher } from '../core';
 
 export const signIn = async (email: string, password: string) => {
-  const { data } = await publicFetcher.post<typeof OK_RESPONSE>(
-    '/auth/sign-in',
-    { email, password } as LocalSignInRequest
-  );
+  try {
+    const { data } = await publicFetcher.post<typeof OK_RESPONSE>(
+      '/auth/sign-in',
+      { email, password } as LocalSignInRequest
+    );
 
-  return data;
+    return data;
+  } catch (e) {
+    if (isAxiosError(e)) {
+      console.error(e.response?.data);
+    }
+    throw e;
+  }
 };
 
 export const getGoogleSignInUrl = () => {
@@ -23,12 +31,19 @@ export const getGoogleSignInUrl = () => {
 };
 
 export const refreshAccessToken = async (token: string) => {
-  const { data } = await publicFetcher.post<RefreshTokenResponse>(
-    '/auth/refresh-token',
-    { token } as RefreshTokenRequest
-  );
+  try {
+    const { data } = await publicFetcher.post<RefreshTokenResponse>(
+      '/auth/refresh-token',
+      { token } as RefreshTokenRequest
+    );
 
-  return data;
+    return data;
+  } catch (e) {
+    if (isAxiosError(e)) {
+      console.error(e.response?.data);
+    }
+    throw e;
+  }
 };
 
 export const resetPassword = async (
@@ -47,7 +62,9 @@ export const resetPassword = async (
     );
     return data;
   } catch (e) {
-    console.error(e);
+    if (isAxiosError(e)) {
+      console.error(e.response?.data);
+    }
     throw e;
   }
 };

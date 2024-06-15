@@ -15,7 +15,7 @@ export class GetUsersHandler implements IQueryHandler<GetUsersQuery> {
     const qb = this.em
       .createQueryBuilder(User, 'u')
       .leftJoinAndSelect('u.signInHistories', 's')
-      .orderBy({ createdAt: QueryOrder.ASC })
+      .orderBy({ createdAt: QueryOrder.ASC, 's.createdAt': QueryOrder.ASC })
       .limit(10);
 
     const count = await qb.getCount();
@@ -50,7 +50,9 @@ export class GetUsersHandler implements IQueryHandler<GetUsersQuery> {
         id: user.id,
         email: user.email,
         signUpAt: dayjs(user.createdAt).toISOString(),
-        lastSignInAt: dayjs(user.signInHistories[0].createdAt).toISOString(),
+        lastSignInAt: user.signInHistories[0]
+          ? dayjs(user.signInHistories[0].createdAt).toISOString()
+          : null,
         signInCount: user.signInHistories.count(),
       })),
       count,
