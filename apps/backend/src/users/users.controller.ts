@@ -2,7 +2,7 @@ import { Body, Controller, Get, Put, Query } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { AuthorizedUser } from 'common';
 
-import { CurrentUser, Public } from '../auth';
+import { CurrentUser } from '../auth';
 import { UpdateUserProfileCommand } from './commands/impl';
 import { UpdateUserProfileRequestDto } from './dto';
 import {
@@ -23,7 +23,6 @@ export class UsersController {
     return this.queryBus.execute(new GetMeQuery(user.id));
   }
 
-  @Public()
   @Get('statistics')
   async countUser() {
     return this.queryBus.execute(new GetUsersStatisticsQuery());

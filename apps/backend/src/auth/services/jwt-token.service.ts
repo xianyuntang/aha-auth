@@ -35,19 +35,15 @@ export class JwtTokenService {
     );
   }
 
-  async decodeAccessToken(token: string) {
-    let decodedTokenPayload: JwtTokenPayload | null = null;
-    try {
-      decodedTokenPayload = (await this.jwtService.verify(token, {
-        secret: this.appConfigService.jwt.accessSecret,
-      })) as JwtTokenPayload;
-      return decodedTokenPayload;
-    } catch (e) {
-      return undefined;
-    }
-  }
-
-  async decodeRefreshToken(token: string) {
+  /**
+   * Decodes the refresh token
+   *
+   * @param {string} token
+   * @return {Promise<JwtTokenPayload | undefined>}
+   */
+  async decodeRefreshToken(
+    token: string
+  ): Promise<JwtTokenPayload | undefined> {
     let decodedToken: JwtTokenPayload | null = null;
     try {
       decodedToken = (await this.jwtService.verify(token, {

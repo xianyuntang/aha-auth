@@ -1,0 +1,23 @@
+export const testUser = {
+  id: 'CLsFS1_lBZxHvB6CIHj1b',
+  email: 'test@example.com',
+  password: '1qaz@WSX',
+  wrongPassword: '1qaz2wsx',
+  simplePassword: '1qaz2wsx',
+  newPassword: '1qaz@WSX3edc',
+  longPassword:
+    '#aR4&r*ZHyce$!6@DDufKeeRW4&Kh%roCAjeA%bsrDuSqAoUQUicz$RdK8eXeqzz6$$tkhJTE',
+  longEmail:
+    'TgnUUDQpgKxJxDrePNdUBi95S2wyfFFJvmaRgutM6B8HpVD2XhdqVkFtJDhQ3ZmhMQvuCLkz9T4qnT64PUyqsdBXcrEwtsvg6NaKLiruQ5FV2HVRTweaushu2Y9fpuWDTgnUUDQpgKxJxDrePNdUBi95S2wyfFFJvmaRgutM6B8HpVD2XhdqVkFtJDhQ3ZmhMQvuCLkz9aaaaaa@example.com',
+};
+
+export const testToken = {
+  expiredAccessToken:
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiQ0xzRlMxX2xCWnhIdkI2Q0lIajFiIiwiZW1haWwiOiJ0ZXN0QGV4YW1wbGUuY29tIiwicHJvZmlsZSI6eyJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsfX0sImlhdCI6MTcxODQ3MDk4NSwiZXhwIjoxNzE4NDcxMDQ1LCJzdWIiOiJDTHNGUzFfbEJaeEh2QjZDSUhqMWIifQ.y6nSpxQO3ZTkYLgCoCuso-pB099_rpv2p6NYwSKgT9k',
+  expiredRefreshToken:
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiQ0xzRlMxX2xCWnhIdkI2Q0lIajFiIiwiZW1haWwiOiJ0ZXN0QGV4YW1wbGUuY29tIiwicHJvZmlsZSI6eyJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsfX0sImlhdCI6MTcxODQ3MTEyNywiZXhwIjoxNzE4NDcxMTg3LCJzdWIiOiJDTHNGUzFfbEJaeEh2QjZDSUhqMWIifQ.6D4gRq_5ggD0ylVhbErAK183bQiakAwwHSmWctOTg6Q',
+  accessToken:
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiQ0xzRlMxX2xCWnhIdkI2Q0lIajFiIiwiZW1haWwiOiJ0ZXN0QGV4YW1wbGUuY29tIiwicHJvZmlsZSI6eyJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsfX0sImlhdCI6MTcxODQ3MDg2NSwic3ViIjoiQ0xzRlMxX2xCWnhIdkI2Q0lIajFiIn0.ePwdYAwK2qrdSaa9SOAJHk0VK0OPOr8pkw31vkSdCHY',
+  refreshToken:
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiQ0xzRlMxX2xCWnhIdkI2Q0lIajFiIiwiZW1haWwiOiJ0ZXN0QGV4YW1wbGUuY29tIiwicHJvZmlsZSI6eyJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsfX0sImlhdCI6MTcxODQ3MDg2NSwic3ViIjoiQ0xzRlMxX2xCWnhIdkI2Q0lIajFiIn0.9hysSL4NtQaQjp2buN3z8y5nXa2VfgulKHh8JtCABBU',
+};

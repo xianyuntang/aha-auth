@@ -8,7 +8,7 @@ beforeAll(async () => {
 });
 
 describe('POST /auth/reset-password', () => {
-  const { password, newPassword } = testUser;
+  const { password, newPassword, email } = testUser;
   it('should block request if old password is wrong', async () => {
     try {
       await fetcher.post(`/auth/reset-password`, {
@@ -29,6 +29,16 @@ describe('POST /auth/reset-password', () => {
       oldPassword: password,
       password: newPassword,
       confirmPassword: newPassword,
+    });
+
+    expect(status).toBe(200);
+    expect(data).toEqual(OK_RESPONSE);
+  });
+
+  it('should success login after password was changed', async () => {
+    const { data, status } = await fetcher.post(`/auth/sign-in`, {
+      email,
+      password: newPassword,
     });
 
     expect(status).toBe(200);
