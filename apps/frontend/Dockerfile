@@ -20,6 +20,7 @@ RUN npm run frontend:build
 FROM base AS runner
 WORKDIR /app
 ENV NODE_ENV production
+
 COPY --from=builder /app/apps/frontend/public ./public/
 COPY --from=builder /app/apps/frontend/.next/standalone/node_modules ./node_modules/
 COPY --from=builder /app/apps/frontend/.next/standalone/apps/frontend ./
