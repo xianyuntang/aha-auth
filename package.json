@@ -11,7 +11,7 @@
     "format": "prettier --check .",
     "test": "npx nx run-many --target=test",
     "e2e": "npx nx run-many --target=e2e",
-    "prepare": "husky"
+    "prepare": "./prepare.sh"
   },
   "private": true,
   "devDependencies": {

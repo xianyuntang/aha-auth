@@ -1,0 +1,86 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: aha
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: DB_PASSWORD
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER}']
+      interval: 5s
+      timeout: 60s
+      retries: 20
+
+  redis:
+    image: redis:7
+    restart: always
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 60s
+      retries: 20
+
+  backend:
+    image: public.ecr.aws/f4r3h2b5/aha-backend
+    hostname: aha-backend
+    restart: always
+    environment:
+      SERVER_PREFIX: api
+      SERVER_PORT: 3000
+      SERVER_EXTERNAL_URL: https://aha.dysonexo.com
+      SERVER_SECRET: SERVER_SECRET
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: aha
+      DB_USER: postgres
+      DB_PASSWORD: DB_PASSWORD
+      DB_DEBUG: false
+      JWT_ACCESS_SECRET: JWT_ACCESS_SECRET
+      JWT_REFRESH_SECRET: JWT_REFRESH_SECRET
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      SMTP_HOST: email-smtp.ap-southeast-1.amazonaws.com
+      SMTP_PORT: 465
+      SMTP_SECURE: true
+      SMTP_USER: SMTP_USER
+      SMTP_PASSWORD: SMTP_PASSWORD
+      SMTP_SENDER: "'Aha' <aha@dysonexo.com>"
+      OAUTH_GOOGLE_CLIENT_ID: GOOGLE_OAUTH_CLIENT_ID
+      OAUTH_GOOGLE_CLIENT_SECRET: GOOGLE_OAUTH_CLIENT_SECRET
+
+    depends_on:
+      redis:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+
+  frontend:
+    image: public.ecr.aws/f4r3h2b5/aha-frontend
+    hostname: aha-frontend
+    restart: always
+
+  nginx:
+    image: jonasal/nginx-certbot
+    restart: always
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      CERTBOT_EMAIL: xt1800i@gmail.com
+      # Optional (Defaults)
+      DHPARAM_SIZE: 2048
+      ELLIPTIC_CURVE: secp256r1
+      RENEWAL_INTERVAL: 8d
+      RSA_KEY_SIZE: 2048
+      STAGING: 0
+      USE_ECDSA: 1
+      # Advanced (Defaults)
+      CERTBOT_AUTHENTICATOR: webroot
+      CERTBOT_DNS_PROPAGATION_SECONDS: ''
+      DEBUG: 0
+      USE_LOCAL_CA: 0
+    volumes:
+      - ./storage/nginx/letsencrypt:/etc/letsencrypt
+      - ./storage/ngin/user_conf.d/:/etc/nginx/user_conf.d:ro
