@@ -38,7 +38,9 @@ const DashboardPage = () => {
         data={tableData}
         onScrolldown={handleScrolldown}
         isLoading={isLoading}
-        noMoreData={data?.nextCursor === null}
+        noMoreData={
+          data?.nextCursor === null || tableData.length === data?.count
+        }
       />
     </Flex>
   );

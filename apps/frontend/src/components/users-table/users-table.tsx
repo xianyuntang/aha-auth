@@ -61,30 +61,24 @@ const UsersTable = ({
   const [tableContainerRef, setTableContainerRef] =
     useState<HTMLDivElement | null>(null);
 
-  const [prevScrollHeight, setPrevScrollHeight] = useState<number>(0);
-
   useEffect(() => {
     const handleScroll = () => {
       if (
         tableContainerRef &&
-        tableContainerRef.scrollHeight ===
-          tableContainerRef.scrollTop + tableContainerRef.clientHeight &&
+        tableContainerRef.scrollHeight >=
+          tableContainerRef.scrollTop + tableContainerRef.clientHeight - 500 &&
         !isLoading
       ) {
         onScrolldown();
-        setPrevScrollHeight(tableContainerRef.scrollHeight);
       }
     };
+
     if (tableContainerRef) {
       tableContainerRef.addEventListener('scroll', handleScroll);
       return () =>
         tableContainerRef.removeEventListener('scroll', handleScroll);
     }
   }, [isLoading, onScrolldown, tableContainerRef]);
-
-  useEffect(() => {
-    tableContainerRef?.scrollTo({ top: prevScrollHeight });
-  }, [data, tableContainerRef, prevScrollHeight]);
 
   const table = useReactTable({
     columns,
