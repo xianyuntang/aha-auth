@@ -11,14 +11,6 @@ export const publicFetcher = axios.create({ baseURL: apiUrl });
 
 export const fetcher = axios.create({ baseURL: apiUrl });
 
-export const setAccessToken = (accessToken: string) => {
-  Cookies.set('accessToken', accessToken);
-};
-
-export const setRefreshToken = (refreshToken: string) => {
-  Cookies.set('refreshToken', refreshToken);
-};
-
 const isAccessTokenNearExpired = () => {
   const accessToken = Cookies.get('accessToken');
   if (!accessToken) {
@@ -31,18 +23,21 @@ const isAccessTokenNearExpired = () => {
 fetcher.interceptors.request.use(
   async (config) => {
     const accessToken = Cookies.get('accessToken');
-    if (isAccessTokenNearExpired()) {
-      const refreshToken = Cookies.get('refreshToken');
-      if (!refreshToken) {
-        throw Error('Invalid token');
+    if (accessToken) {
+      if (isAccessTokenNearExpired()) {
+        const refreshToken = Cookies.get('refreshToken');
+        if (!refreshToken) {
+          throw Error('Invalid token');
+        }
+        const { accessToken } = await authService.refreshAccessToken(
+          refreshToken
+        );
+        Cookies.set('accessToken', accessToken);
+      } else {
+        config.headers.setAuthorization(`Bearer ${accessToken}`);
       }
-      const { accessToken } = await authService.refreshAccessToken(
-        refreshToken
-      );
-      setAccessToken(accessToken);
-    } else {
-      config.headers.common['Authorization'] = `Bearer ${accessToken}`;
     }
+
     return config;
   },
   (error) => {

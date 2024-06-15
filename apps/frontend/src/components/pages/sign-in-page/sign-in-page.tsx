@@ -4,13 +4,14 @@ import { Button, Flex, Input, Text } from '@chakra-ui/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { setAccessToken, setRefreshToken } from '../../../core';
+import { useAuth } from '../../../hooks';
 import { authService } from '../../../services';
 
 const SignInPage = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [isEmailSent, setIsEmailSent] = useState<boolean>(false);
+  const { isLogin, updateAccessToken, updateRefreshToken } = useAuth();
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -19,14 +20,20 @@ const SignInPage = () => {
     const accessToken = searchParams.get('accessToken');
     const refreshToken = searchParams.get('refreshToken');
     if (accessToken && refreshToken) {
-      setAccessToken(accessToken);
-      setRefreshToken(refreshToken);
+      updateAccessToken(accessToken);
+      updateRefreshToken(refreshToken);
     }
-  }, [searchParams]);
+  }, [searchParams, router, updateRefreshToken, updateAccessToken]);
+
+  useEffect(() => {
+    if (isLogin) {
+      router.push('dashboard');
+    }
+  }, [isLogin, router]);
 
   const onSignInClick = async () => {
     await authService.signIn(email, password);
-    setIsLogin(true);
+    setIsEmailSent(true);
   };
 
   const onGoogleSignInClick = async () => {
@@ -35,7 +42,7 @@ const SignInPage = () => {
 
   return (
     <Flex justify="center" direction="column" align="center" gap={4}>
-      {isLogin ? (
+      {isEmailSent ? (
         <Text>Please check your email to confirm sign in</Text>
       ) : (
         <>

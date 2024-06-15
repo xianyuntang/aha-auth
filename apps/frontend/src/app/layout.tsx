@@ -1,5 +1,3 @@
-import { ChakraProvider } from '@chakra-ui/react';
-
 export const metadata = {
   title: 'Aha Dashboard',
   description: 'A user dashboard for aha ai',
@@ -12,9 +10,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <ChakraProvider>{children}</ChakraProvider>
-      </body>
+      <body>{children} </body>
     </html>
   );
 }

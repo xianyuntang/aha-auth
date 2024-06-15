@@ -1,5 +1,6 @@
 import { EntityManager, QueryOrder } from '@mikro-orm/postgresql';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
+import { GetUsersResponse } from 'common';
 import dayjs from 'dayjs';
 
 import { User } from '../../../orm';
@@ -8,14 +9,14 @@ import { GetUsersQuery } from '../impl';
 @QueryHandler(GetUsersQuery)
 export class GetUsersHandler implements IQueryHandler<GetUsersQuery> {
   constructor(private readonly em: EntityManager) {}
-  async execute(query: GetUsersQuery) {
+  async execute(query: GetUsersQuery): Promise<GetUsersResponse> {
     const { cursor } = query;
 
     const qb = this.em
       .createQueryBuilder(User, 'u')
       .leftJoinAndSelect('u.signInHistories', 's')
       .orderBy({ createdAt: QueryOrder.ASC })
-      .limit(3);
+      .limit(10);
 
     const count = await qb.getCount();
 
@@ -48,8 +49,8 @@ export class GetUsersHandler implements IQueryHandler<GetUsersQuery> {
       data: users.map((user) => ({
         id: user.id,
         email: user.email,
-        createdAt: user.createdAt,
-        lastSignInAt: user.signInHistories[0].createdAt,
+        signUpAt: dayjs(user.createdAt).toISOString(),
+        lastSignInAt: dayjs(user.signInHistories[0].createdAt).toISOString(),
         signInCount: user.signInHistories.count(),
       })),
       count,
