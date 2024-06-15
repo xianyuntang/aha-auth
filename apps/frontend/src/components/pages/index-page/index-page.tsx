@@ -2,9 +2,20 @@
 
 import { Button, Flex } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+import { useAuth } from '../../../hooks';
 
 const IndexPage = () => {
   const router = useRouter();
+
+  const { isLogin } = useAuth();
+
+  useEffect(() => {
+    if (isLogin) {
+      router.replace('/dashboard');
+    }
+  }, [router, isLogin]);
 
   const onSignInClick = () => {
     router.push('sign-in');
