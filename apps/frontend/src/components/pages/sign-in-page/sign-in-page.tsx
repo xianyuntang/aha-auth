@@ -41,6 +41,10 @@ const SignInPage = () => {
     router.replace(authService.getGoogleSignInUrl());
   };
 
+  const handleSignUpClick = () => {
+    router.push('sign-up');
+  };
+
   return (
     <Flex justify="center" direction="column" align="center" gap={4}>
       {isEmailSent ? (
@@ -65,6 +69,10 @@ const SignInPage = () => {
 
           <Button w="100%" onClick={handleGoogleSignInClick}>
             Google Sign In
+          </Button>
+
+          <Button w="100%" onClick={handleSignUpClick}>
+            Go To Sign Up
           </Button>
         </>
       )}
