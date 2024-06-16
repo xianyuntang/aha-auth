@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Profile, Strategy, VerifyCallback } from 'passport-google-oauth20';
-import urljoin from 'url-join';
 
 import { AppConfigService } from '../../app-config';
 
@@ -14,22 +13,14 @@ export class GoogleOauthStrategy extends PassportStrategy(
 ) {
   constructor(readonly appConfigService: AppConfigService) {
     const {
-      server: { externalUrl, prefix },
       oauth: {
-        google: { clientId, clientSecret },
+        google: { clientId, clientSecret, redirectUrl },
       },
     } = appConfigService;
     super({
       clientID: clientId,
       clientSecret,
-      callbackURL: urljoin(
-        externalUrl,
-        prefix,
-        'auth',
-        'sign-in',
-        'google',
-        'callback'
-      ),
+      callbackURL: redirectUrl,
       scope: ['profile', 'email'],
     });
   }

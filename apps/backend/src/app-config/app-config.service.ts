@@ -77,6 +77,9 @@ export class AppConfigService {
         clientSecret: this.configService.getOrThrow<string>(
           EnvField.OAUTH_GOOGLE_CLIENT_SECRET
         ),
+        redirectUrl: this.configService.getOrThrow<string>(
+          EnvField.OAUTH_GOOGLE_REDIRECT_URL
+        ),
       },
     };
   }

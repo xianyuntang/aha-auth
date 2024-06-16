@@ -88,4 +88,7 @@ export class AppEnvSchema {
 
   @IsString()
   [EnvField.OAUTH_GOOGLE_CLIENT_SECRET]!: string;
+
+  @IsString()
+  [EnvField.OAUTH_GOOGLE_REDIRECT_URL]!: string;
 }

@@ -48,6 +48,7 @@ describe('AppConfigService', () => {
         [EnvField.SMTP_SECURE]: true,
         [EnvField.OAUTH_GOOGLE_CLIENT_ID]: 'g-client-id',
         [EnvField.OAUTH_GOOGLE_CLIENT_SECRET]: 'g-client-secret',
+        [EnvField.OAUTH_GOOGLE_REDIRECT_URL]: 'g-redirect-url',
       };
       return mockValues[key];
     });
@@ -124,6 +125,7 @@ describe('AppConfigService', () => {
       } = appConfigService;
       expect(google.clientId).toBe('g-client-id');
       expect(google.clientSecret).toBe('g-client-secret');
+      expect(google.redirectUrl).toBe('g-redirect-url');
     });
   });
 });
