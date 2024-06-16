@@ -16,9 +16,6 @@ export class JwtTokenService {
 
   /**
    * Generates a sign-in link for the given user.
-   *
-   * @param {User} user
-   * @returns {Promise<string>}
    */
   async getSignInLink(user: User): Promise<string> {
     const {
@@ -37,9 +34,6 @@ export class JwtTokenService {
 
   /**
    * Decodes the refresh token
-   *
-   * @param {string} token
-   * @return {Promise<JwtTokenPayload | undefined>}
    */
   async decodeRefreshToken(
     token: string
@@ -57,9 +51,6 @@ export class JwtTokenService {
 
   /**
    * Generates an access token for the given user.
-   *
-   * @param {User} user
-   * @returns {string}
    */
   issueAccessToken(user: User): string {
     const {
@@ -92,9 +83,6 @@ export class JwtTokenService {
 
   /**
    * Generates a refresh token for the given user.
-   *
-   * @param {User} user
-   * @returns {string}
    */
   issueRefreshToken(user: User): string {
     const {
@@ -126,9 +114,6 @@ export class JwtTokenService {
   }
   /**
    * Determines if the given token has already expired.
-   *
-   * @param {number} exp
-   * @return {boolean}
    */
   isTokenExpired(exp: number): boolean {
     return exp < dayjs().unix();

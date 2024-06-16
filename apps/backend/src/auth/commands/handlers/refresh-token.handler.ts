@@ -1,5 +1,6 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { RefreshTokenResponse } from 'common';
 
 import { UserRepository } from '../../../orm';
 import { JwtTokenService } from '../../services';
@@ -13,7 +14,11 @@ export class RefreshTokenHandler
     private readonly jwtTokenService: JwtTokenService,
     private readonly userRepository: UserRepository
   ) {}
-  async execute(command: RefreshTokenCommand) {
+
+  /**
+   * Executes the refresh token command.
+   */
+  async execute(command: RefreshTokenCommand): Promise<RefreshTokenResponse> {
     const { refreshToken } = command;
 
     const decodedJwtToken = await this.jwtTokenService.decodeRefreshToken(

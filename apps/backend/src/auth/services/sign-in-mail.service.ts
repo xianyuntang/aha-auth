@@ -17,9 +17,6 @@ export class SignInMailService {
 
   /**
    * Send a sign-in mail to the given user.
-   *
-   * @param {User} user
-   * @return {Promise<void>}
    */
   async sendSignInMail(user: User): Promise<void> {
     const signInLink = await this.jwtTokenService.getSignInLink(user);

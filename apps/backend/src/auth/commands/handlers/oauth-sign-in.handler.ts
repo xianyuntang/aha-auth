@@ -19,10 +19,6 @@ export class OauthSignInHandler implements ICommandHandler<OauthSignInCommand> {
 
   /**
    * Executes the OAuth sign-in process.
-   *
-   * @param {OauthSignInCommand} command
-   * @throws {BadRequestException} If no valid email is found.
-   * @returns {Promise<string>} The sign-in link
    */
   async execute(command: OauthSignInCommand): Promise<string> {
     const {
@@ -70,9 +66,6 @@ export class OauthSignInHandler implements ICommandHandler<OauthSignInCommand> {
 
   /**
    * Retrieves the verified email from a list of email.
-   *
-   * @param {Profile['emails']} emails - emails from oauth provider
-   * @return {ExtractArrayElementType<NonNullable<Profile['emails']>> | null}
    */
   private getVerifiedEmail(
     emails: Profile['emails']

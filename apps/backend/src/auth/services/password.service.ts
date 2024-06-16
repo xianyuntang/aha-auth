@@ -7,9 +7,6 @@ import { BCRYPT_ROUNDS } from '../auth.constant';
 export class PasswordService {
   /**
    * Hashes a password with bcrypt.
-   *
-   * @param {string} password
-   * @returns {Promise<string>}
    */
   async hashPassword(password: string): Promise<string> {
     return bcryptjs.hash(password, await bcryptjs.genSalt(BCRYPT_ROUNDS));
@@ -17,10 +14,6 @@ export class PasswordService {
 
   /**
    * Checks if the provided password matches the hashed password.
-   *
-   * @param {string} password
-   * @param {string} hashedPassword
-   * @returns {Promise<boolean>}
    */
   async isPasswordMatched(
     password: string,

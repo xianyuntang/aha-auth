@@ -15,7 +15,11 @@ export class LocalSignUpHandler implements ICommandHandler<LocalSignUpCommand> {
     private readonly passwordService: PasswordService,
     private readonly signinMailService: SignInMailService
   ) {}
-  async execute(command: LocalSignUpCommand) {
+
+  /**
+   * Executes a local sign-up command.
+   */
+  async execute(command: LocalSignUpCommand): Promise<typeof OK_RESPONSE> {
     const { email, password } = command;
 
     const hashedPassword = await this.passwordService.hashPassword(password);

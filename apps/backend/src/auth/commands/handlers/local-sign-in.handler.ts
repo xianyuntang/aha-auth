@@ -17,7 +17,10 @@ export class LocalSignInHandler implements ICommandHandler<LocalSignInCommand> {
     private readonly signinMailService: SignInMailService
   ) {}
 
-  async execute(command: LocalSignInCommand) {
+  /**
+   * Executes a local sign-in command.
+   */
+  async execute(command: LocalSignInCommand): Promise<typeof OK_RESPONSE> {
     const { email, password } = command;
 
     const user = await this.em.transactional(async () => {

@@ -16,6 +16,10 @@ export class ResetPasswordHandler
     private readonly em: EntityManager,
     private readonly passwordService: PasswordService
   ) {}
+
+  /**
+   * Executes the reset password.
+   */
   async execute(command: ResetPasswordCommand) {
     const { email, password, oldPassword } = command;
 
