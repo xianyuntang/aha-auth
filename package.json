@@ -108,6 +108,7 @@
     "dayjs": "^1.11.11",
     "dotenv": "^16.4.5",
     "framer-motion": "^11.2.10",
+    "helmet": "^7.1.0",
     "immer": "^10.1.1",
     "js-cookie": "^3.0.5",
     "nanoid": "^3.3.7",
