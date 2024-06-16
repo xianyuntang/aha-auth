@@ -9,7 +9,7 @@ export class UserSeeder extends Seeder {
   async run(em: EntityManager): Promise<void> {
     const userRepository = em.getRepository(User);
 
-    for (let i = 0; i++; i < 100) {
+    for (let i = 0; i < 100; i++) {
       const email = `test-${i}@example.com`;
       const exist = await userRepository.findOne({ email });
       if (exist) {

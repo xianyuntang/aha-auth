@@ -2,7 +2,7 @@ import { MikroORM } from '@mikro-orm/core';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 
 import MikroOrmConfig from '../mikro-orm.config';
-import { UserDevSeeder } from '../seeders/dev/user.dev-seeder';
+import { UserDevSeeder } from '../seeders/dev';
 
 export const createSchema = async () => {
   const orm = await MikroORM.init<PostgreSqlDriver>({ ...MikroOrmConfig });
