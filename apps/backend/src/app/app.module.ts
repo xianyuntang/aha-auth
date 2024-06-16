@@ -2,6 +2,8 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 import { AppConfigModule, AppConfigService } from '../app-config';
 import { AuthModule } from '../auth';
@@ -61,10 +63,22 @@ import { AppService } from './app.service';
       },
       inject: [AppConfigService],
     }),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60 * 1000,
+        limit: 60,
+      },
+    ]),
     AuthModule,
     UsersModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}

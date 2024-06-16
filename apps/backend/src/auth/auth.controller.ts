@@ -9,6 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
+import { Throttle } from '@nestjs/throttler';
 import { AuthorizedUser, SignInResponse } from 'common';
 import { Response } from 'express';
 import { Profile } from 'passport-google-oauth20';
@@ -34,6 +35,7 @@ export class AuthController {
   constructor(private readonly commandBus: CommandBus) {}
 
   @Public()
+  @Throttle({ default: { limit: 10, ttl: 60 * 1000 } })
   @Post('sign-in')
   @HttpCode(HttpStatus.OK)
   localSignIn(
@@ -46,6 +48,7 @@ export class AuthController {
   }
 
   @Public()
+  @Throttle({ default: { limit: 10, ttl: 60 * 1000 } })
   @Post('sign-up')
   @HttpCode(HttpStatus.OK)
   localSignUp(
@@ -58,6 +61,7 @@ export class AuthController {
   }
 
   @Public()
+  @Throttle({ default: { limit: 10, ttl: 60 * 1000 } })
   @Get('sign-in/google')
   @UseGuards(GoogleOAuthGuard)
   googleSignIn() {
@@ -65,6 +69,7 @@ export class AuthController {
   }
 
   @Public()
+  @Throttle({ default: { limit: 10, ttl: 60 * 1000 } })
   @Get('sign-in/google/callback')
   @HttpCode(HttpStatus.PERMANENT_REDIRECT)
   @UseGuards(GoogleOAuthGuard)
