@@ -43,7 +43,7 @@ const ProfilePage = () => {
   }
 
   return (
-    <Flex justify="center" flexDir="column">
+    <Flex justify="center" flexDir="column" width="600px" gap={4}>
       <Box>
         <Box>Email: {data?.email}</Box>
         <Box>First Name: {data?.profile.firstName}</Box>
