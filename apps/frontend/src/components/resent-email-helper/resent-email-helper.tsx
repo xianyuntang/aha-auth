@@ -7,7 +7,7 @@ const ResentEmailHelper = ({ onClick }: { onClick: () => void }) => {
   return (
     <Box>
       <Text>Please check your email to confirm sign in</Text>
-      <Button onClick={handleResentEmail}>Reset Email</Button>
+      <Button onClick={handleResentEmail}>Resent Email</Button>
     </Box>
   );
 };
