@@ -50,8 +50,10 @@ export class GetUsersHandler implements IQueryHandler<GetUsersQuery> {
         id: user.id,
         email: user.email,
         signUpAt: dayjs(user.createdAt).toISOString(),
-        lastSignInAt: user.signInHistories[0]
-          ? dayjs(user.signInHistories[0].createdAt).toISOString()
+        lastSignInAt: user.signInHistories[user.signInHistories.length - 1]
+          ? dayjs(
+              user.signInHistories[user.signInHistories.length - 1].createdAt
+            ).toISOString()
           : null,
         signInCount: user.signInHistories.count(),
       })),
