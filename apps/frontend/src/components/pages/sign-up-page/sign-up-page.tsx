@@ -39,6 +39,8 @@ const SignInPage = () => {
           setAlertMessages(
             (e.response?.data.message as string[]) || ['unknown Error']
           );
+        } else if (e.response?.status === 409) {
+          setAlertMessages([e.response?.data.message]);
         } else if (e.response?.status === 500) {
           setAlertMessages(['unknown error']);
         }
