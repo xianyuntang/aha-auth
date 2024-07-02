@@ -1,6 +1,15 @@
 'use client';
 
-import { Button, Flex, Input } from '@chakra-ui/react';
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  Box,
+  Button,
+  Flex,
+  Input,
+} from '@chakra-ui/react';
+import { isAxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -12,12 +21,32 @@ const SignInPage = () => {
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [isEmailSent, setIsEmailSent] = useState<boolean>(false);
+  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
+  const [alertMessages, setAlertMessages] = useState<string[]>([]);
 
   const router = useRouter();
 
   const handleSignUpClick = async () => {
-    await authService.signUp(email, password, confirmPassword);
-    setIsEmailSent(true);
+    try {
+      await authService.signUp(email, password, confirmPassword);
+      setIsEmailSent(true);
+      setIsAlertOpen(false);
+      setAlertMessages([]);
+    } catch (e) {
+      if (isAxiosError(e)) {
+        setIsAlertOpen(true);
+        if (e.response?.status === 400) {
+          setAlertMessages(
+            (e.response?.data.message as string[]) || ['unknown Error']
+          );
+        } else if (e.response?.status === 500) {
+          setAlertMessages(['unknown error']);
+        }
+      } else {
+        setAlertMessages(['unknown error']);
+        setIsAlertOpen(true);
+      }
+    }
   };
 
   const handleSignInClick = async () => {
@@ -34,6 +63,16 @@ const SignInPage = () => {
 
   return (
     <Flex justify="center" direction="column" align="center" gap={4}>
+      {isAlertOpen && (
+        <Alert status="error">
+          <AlertIcon />
+          <AlertDescription maxWidth="sm">
+            {alertMessages.map((message, index) => (
+              <Box key={index}>{message}</Box>
+            ))}
+          </AlertDescription>
+        </Alert>
+      )}
       {isEmailSent ? (
         <ResentEmailHelper onClick={handleSignInClick} />
       ) : (
