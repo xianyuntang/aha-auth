@@ -38,6 +38,7 @@ const UpdateProfileModal = ({
     try {
       await userService.updateMe(firstName, lastName);
       onSave();
+      onClose();
     } catch (e) {
       if (isAxiosError(e)) {
         toast({

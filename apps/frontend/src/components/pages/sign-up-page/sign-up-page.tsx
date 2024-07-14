@@ -1,14 +1,6 @@
 'use client';
 
-import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  Box,
-  Button,
-  Flex,
-  Input,
-} from '@chakra-ui/react';
+import { Button, Flex, Input, useToast } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -21,32 +13,31 @@ const SignInPage = () => {
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [isEmailSent, setIsEmailSent] = useState<boolean>(false);
-  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
-  const [alertMessages, setAlertMessages] = useState<string[]>([]);
 
   const router = useRouter();
+
+  const toast = useToast({
+    title: 'Error',
+    isClosable: true,
+    status: 'error',
+    position: 'top-right',
+  });
 
   const handleSignUpClick = async () => {
     try {
       await authService.signUp(email, password, confirmPassword);
       setIsEmailSent(true);
-      setIsAlertOpen(false);
-      setAlertMessages([]);
     } catch (e) {
       if (isAxiosError(e)) {
-        setIsAlertOpen(true);
         if (e.response?.status === 400) {
-          setAlertMessages(
-            (e.response?.data.message as string[]) || ['unknown Error']
-          );
+          toast({ description: e.response?.data.message[0] });
         } else if (e.response?.status === 409) {
-          setAlertMessages([e.response?.data.message]);
+          toast({ description: e.response?.data.message });
         } else if (e.response?.status === 500) {
-          setAlertMessages(['unknown error']);
+          toast({ description: e.response?.data.message });
         }
       } else {
-        setAlertMessages(['unknown error']);
-        setIsAlertOpen(true);
+        toast({ description: 'Unknown Error' });
       }
     }
   };
@@ -65,16 +56,6 @@ const SignInPage = () => {
 
   return (
     <Flex justify="center" direction="column" align="center" gap={4}>
-      {isAlertOpen && (
-        <Alert status="error">
-          <AlertIcon />
-          <AlertDescription maxWidth="sm">
-            {alertMessages.map((message, index) => (
-              <Box key={index}>{message}</Box>
-            ))}
-          </AlertDescription>
-        </Alert>
-      )}
       {isEmailSent ? (
         <ResentEmailHelper onClick={handleSignInClick} />
       ) : (

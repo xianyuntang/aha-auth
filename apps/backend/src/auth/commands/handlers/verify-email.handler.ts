@@ -36,7 +36,7 @@ export class VerifyEmailHandler implements ICommandHandler<VerifyEmailCommand> {
         { failHandler: () => new UnauthorizedException() }
       );
 
-      wrap(user).assign({ verified: true });
+      wrap(user).assign({ verified: true, signInHistories: {} });
 
       return user;
     });

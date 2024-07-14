@@ -36,7 +36,7 @@ export class LocalSignUpHandler implements ICommandHandler<LocalSignUpCommand> {
       return this.userRepository.create({
         email,
         password: hashedPassword,
-        signInHistories: {},
+
         profile: {},
       });
     });
