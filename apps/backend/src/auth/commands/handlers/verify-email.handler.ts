@@ -17,7 +17,6 @@ export class VerifyEmailHandler implements ICommandHandler<VerifyEmailCommand> {
 
   async execute(command: VerifyEmailCommand) {
     const { accessToken } = command;
-
     const jwtTokenPayload = await this.jwtTokenService.decodeAccessToken(
       accessToken
     );
@@ -32,7 +31,7 @@ export class VerifyEmailHandler implements ICommandHandler<VerifyEmailCommand> {
 
     const user = await this.em.transactional(async () => {
       const user = await this.userRepository.findOneOrFail(
-        { id },
+        { id, verified: false },
         { failHandler: () => new UnauthorizedException() }
       );
 
