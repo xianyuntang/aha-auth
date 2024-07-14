@@ -40,6 +40,10 @@ const ResetPasswordModal = ({
   const handleSaveClick = async () => {
     try {
       await authService.resetPassword(oldPassword, password, confirmPassword);
+      toast({ title: 'Success', isClosable: true, status: 'success' });
+      setOldPassword('');
+      setPassword('');
+      setConfirmPassword('');
       onClose();
     } catch (e) {
       if (isAxiosError(e)) {

@@ -29,7 +29,6 @@ const UpdateProfileModal = ({
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
   const toast = useToast({
-    status: 'error',
     isClosable: true,
     position: 'top-right',
   });
@@ -37,11 +36,14 @@ const UpdateProfileModal = ({
   const handleSaveClick = async () => {
     try {
       await userService.updateMe(firstName, lastName);
+      toast({ title: 'Success', isClosable: true, status: 'success' });
       onSave();
       onClose();
     } catch (e) {
       if (isAxiosError(e)) {
         toast({
+          title: 'Error',
+          status: 'error',
           description: e.response?.data.message[0],
         });
       }
