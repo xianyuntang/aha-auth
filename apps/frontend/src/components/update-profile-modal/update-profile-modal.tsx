@@ -10,7 +10,9 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  useToast,
 } from '@chakra-ui/react';
+import { isAxiosError } from 'axios';
 import { useState } from 'react';
 
 import { userService } from '../../services';
@@ -26,11 +28,23 @@ const UpdateProfileModal = ({
 }) => {
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
+  const toast = useToast({
+    status: 'error',
+    isClosable: true,
+    position: 'top-right',
+  });
 
   const handleSaveClick = async () => {
-    await userService.updateMe(firstName, lastName);
-    onClose();
-    onSave();
+    try {
+      await userService.updateMe(firstName, lastName);
+      onSave();
+    } catch (e) {
+      if (isAxiosError(e)) {
+        toast({
+          description: e.response?.data.message[0],
+        });
+      }
+    }
   };
 
   return (

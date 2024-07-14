@@ -1,14 +1,6 @@
 'use client';
 
-import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  Box,
-  Button,
-  Flex,
-  Input,
-} from '@chakra-ui/react';
+import { Button, Flex, Input, useToast } from '@chakra-ui/react';
 import { isAxiosError } from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -21,12 +13,17 @@ const SignInPage = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isEmailSent, setIsEmailSent] = useState<boolean>(false);
-  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
-  const [alertMessages, setAlertMessages] = useState<string[]>([]);
   const { isLogin, updateAccessToken, updateRefreshToken } = useAuth();
 
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const toast = useToast({
+    title: 'Error',
+    isClosable: true,
+    status: 'error',
+    position: 'top-right',
+  });
 
   useEffect(() => {
     const accessToken = searchParams.get('accessToken');
@@ -52,28 +49,21 @@ const SignInPage = () => {
 
       updateAccessToken(accessToken);
       updateRefreshToken(refreshToken);
-
-      setIsAlertOpen(false);
-      setAlertMessages([]);
     } catch (e) {
       if (isAxiosError(e)) {
         if (e.response?.status === 400) {
-          setAlertMessages(
-            (e.response?.data.message as string[]) || ['unknown Error']
-          );
-          setIsAlertOpen(true);
+          toast({ description: e.response?.data.message[0] });
         } else if (e.response?.status === 401) {
-          setAlertMessages([e.response?.data.message]);
-          setIsAlertOpen(true);
+          toast({ description: e.response?.data.message });
         } else if (e.response?.status === 403) {
           setIsEmailSent(true);
+        } else if (e.response?.status === 429) {
+          toast({ description: e.response?.data.message });
         } else if (e.response?.status === 500) {
-          setAlertMessages(['unknown error']);
-          setIsAlertOpen(true);
+          toast({ description: e.response?.data.message });
         }
       } else {
-        setAlertMessages(['unknown error']);
-        setIsAlertOpen(true);
+        toast({ description: 'Unknown Error' });
       }
     }
   };
@@ -88,16 +78,6 @@ const SignInPage = () => {
 
   return (
     <Flex justify="center" direction="column" align="center" gap={4}>
-      {isAlertOpen && (
-        <Alert status="error">
-          <AlertIcon />
-          <AlertDescription maxWidth="sm">
-            {alertMessages.map((message, index) => (
-              <Box key={index}>{message}</Box>
-            ))}
-          </AlertDescription>
-        </Alert>
-      )}
       {isEmailSent ? (
         <ResentEmailHelper onClick={handleSignInClick} />
       ) : (

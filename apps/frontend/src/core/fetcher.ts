@@ -58,5 +58,6 @@ fetcher.interceptors.response.use(
     if (error.response.status === 401) {
       location.replace('/sign-in');
     }
+    return Promise.reject(error);
   }
 );

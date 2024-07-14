@@ -1,4 +1,4 @@
-import { JwtTokenPayload } from 'common';
+import { AuthorizedUser, JwtTokenPayload } from 'common';
 import dayjs from 'dayjs';
 import jwt from 'jsonwebtoken';
 import { useRouter } from 'next/navigation';
@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 
 export const useAuth = () => {
+  const [userData, setUserData] = useState<AuthorizedUser | null>(null);
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const router = useRouter();
   const [{ accessToken, refreshToken }, setCookie] = useCookies([
@@ -15,15 +16,18 @@ export const useAuth = () => {
 
   useEffect(() => {
     try {
-      const decodedJwtToken = jwt.decode(accessToken) as JwtTokenPayload;
+      const { exp, user } = jwt.decode(accessToken) as JwtTokenPayload;
 
-      if (decodedJwtToken.exp > dayjs().unix()) {
+      if (exp > dayjs().unix()) {
         setIsLogin(true);
+        setUserData(user);
       } else {
         setIsLogin(false);
+        setUserData(null);
       }
     } catch (e) {
       setIsLogin(false);
+      setUserData(null);
     }
   }, [accessToken]);
 
@@ -45,6 +49,7 @@ export const useAuth = () => {
     isLogin,
     accessToken,
     refreshToken,
+    userData,
     updateAccessToken,
     updateRefreshToken,
     logout,

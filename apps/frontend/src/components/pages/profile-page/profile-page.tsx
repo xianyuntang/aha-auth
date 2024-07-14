@@ -28,7 +28,7 @@ const ProfilePage = () => {
 
   const { data, refetch } = useQuery(['me'], userService.getMe);
 
-  const { logout } = useAuth();
+  const { userData, logout } = useAuth();
 
   const handleOnSave = async () => {
     await refetch();
@@ -50,7 +50,7 @@ const ProfilePage = () => {
         <Box>Last Name: {data?.profile.lastName}</Box>
         <ButtonGroup>
           <Button onClick={onUpdateProfileModalOpen}>Update Profile</Button>
-          <Button onClick={onResetPasswordModalOpen}>Reset Password</Button>
+          <Button onClick={onResetPasswordModalOpen}>Change Password</Button>
           <Button onClick={handleLogoutClick}>Logout</Button>
         </ButtonGroup>
       </Box>
@@ -62,6 +62,7 @@ const ProfilePage = () => {
       <ResetPasswordModal
         isOpen={isRestPasswordModalOpen}
         onClose={onResetPasswordModalClose}
+        disabled={!!userData?.oauth}
       />
     </Flex>
   );

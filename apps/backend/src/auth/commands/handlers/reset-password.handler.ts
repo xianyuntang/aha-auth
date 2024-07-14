@@ -1,6 +1,10 @@
 import { wrap } from '@mikro-orm/core';
 import { EntityManager } from '@mikro-orm/postgresql';
-import { UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { OK_RESPONSE } from 'common';
 
@@ -33,7 +37,9 @@ export class ResetPasswordHandler
 
       // Throw error if user is registered by oauth
       if (!exist.password) {
-        throw new UnauthorizedException();
+        throw new ForbiddenException(
+          'You dont have permission to change your password'
+        );
       }
 
       const isPasswordMatched = await this.passwordService.isPasswordMatched(
@@ -43,7 +49,7 @@ export class ResetPasswordHandler
 
       // Throw error if old password is incorrect
       if (!isPasswordMatched) {
-        throw new UnauthorizedException();
+        throw new BadRequestException(['oldPassword is incorrect']);
       }
 
       // Updated password hash
