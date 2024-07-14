@@ -3,6 +3,7 @@ import {
   Entity,
   OneToMany,
   OneToOne,
+  Opt,
   Property,
 } from '@mikro-orm/core';
 
@@ -19,6 +20,9 @@ export class User extends CustomBaseEntity {
 
   @Property({ nullable: true, length: 60, hidden: true })
   password?: string;
+
+  @Property({ default: false })
+  verified!: boolean & Opt;
 
   @OneToOne(() => UserProfile, 'user', {
     orphanRemoval: true,

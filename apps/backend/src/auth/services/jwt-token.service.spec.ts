@@ -7,6 +7,7 @@ import { User, UserProfile } from '../../orm';
 import { JwtTokenService } from './jwt-token.service';
 
 const mockedUser: User = {
+  verified: true,
   oauthUsers: [] as never,
   signInHistories: [] as never,
   createdAt: dayjs().toDate(),

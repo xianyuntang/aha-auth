@@ -14,7 +14,7 @@ const mockAppConfigService = {
 };
 
 const mockJwtTokenService = {
-  getSignInLink: jest.fn(),
+  getVerifyEmailLink: jest.fn(),
 };
 
 const mockMailerService = {
@@ -22,6 +22,7 @@ const mockMailerService = {
 };
 
 const mockUser: User = {
+  verified: true,
   oauthUsers: [] as never,
   signInHistories: [] as never,
   createdAt: dayjs().toDate(),
@@ -46,9 +47,9 @@ describe('SignInMailService', () => {
   });
 
   describe('sendSignInMail', () => {
-    it('getSignInLink should be called once', () => {
-      signInMailService.sendSignInMail(mockUser);
-      expect(mockJwtTokenService.getSignInLink).toHaveBeenCalled();
+    it('getVerifyEmailLink should be called once', () => {
+      signInMailService.sendVerifyMail(mockUser);
+      expect(mockJwtTokenService.getVerifyEmailLink).toHaveBeenCalled();
     });
   });
 });

@@ -41,6 +41,7 @@ export class OauthSignInHandler implements ICommandHandler<OauthSignInCommand> {
         });
         if (!oauthUsers) {
           wrap(user).assign({
+            verified: true,
             profile: { firstName: name?.givenName, lastName: name?.familyName },
             oauthUsers: { provider },
             signInHistories: {},
@@ -53,6 +54,7 @@ export class OauthSignInHandler implements ICommandHandler<OauthSignInCommand> {
       } else {
         return this.userRepository.create({
           email: email.value,
+          verified: true,
           profile: { firstName: name?.givenName, lastName: name?.familyName },
           oauthUsers: { provider },
           signInHistories: {},

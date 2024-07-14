@@ -42,6 +42,7 @@ describe('POST /auth/reset-password', () => {
     });
 
     expect(status).toBe(200);
-    expect(data).toEqual(OK_RESPONSE);
+    expect(data).toHaveProperty('accessToken');
+    expect(data).toHaveProperty('refreshToken');
   });
 });

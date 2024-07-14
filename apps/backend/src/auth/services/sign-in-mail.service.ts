@@ -18,19 +18,19 @@ export class SignInMailService {
   /**
    * Send a sign-in mail to the given user.
    */
-  async sendSignInMail(user: User): Promise<void> {
-    const signInLink = await this.jwtTokenService.getSignInLink(user);
+  async sendVerifyMail(user: User): Promise<void> {
+    const signInLink = await this.jwtTokenService.getVerifyEmailLink(user);
 
     const {
       env: { isProduction },
     } = this.appConfigService;
 
     if (!isProduction) {
-      this.logger.debug(`Sign-in link (not sent): ${signInLink}`);
+      this.logger.debug(`Verify link (not sent): ${signInLink}`);
     } else {
       await this.mailerService.sendMail({
         to: user.email,
-        subject: 'Confirm your sign-in request',
+        subject: 'Confirm your email',
         html: `<div>${signInLink}</div>`,
       });
     }

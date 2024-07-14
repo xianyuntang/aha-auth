@@ -29,7 +29,8 @@ describe('AppConfigService', () => {
         [EnvField.NODE_ENV]: Environment.DEVELOPMENT,
         [EnvField.SERVER_PORT]: 3000,
         [EnvField.SERVER_PREFIX]: 'api',
-        [EnvField.SERVER_EXTERNAL_URL]: 'http://localhost:3000',
+        [EnvField.SERVER_EXTERNAL_API_URL]: 'http://localhost:3000',
+        [EnvField.SERVER_EXTERNAL_URL]: 'http://localhost:4200',
         [EnvField.DB_HOST]: 'localhost',
         [EnvField.DB_PORT]: 5432,
         [EnvField.DB_NAME]: 'test_db',
@@ -65,11 +66,12 @@ describe('AppConfigService', () => {
 
     it('should return the correct server configuration', () => {
       const {
-        server: { prefix, port, externalUrl },
+        server: { prefix, port, externalUrl, externalApiUrl },
       } = appConfigService;
       expect(prefix).toBe('api');
       expect(port).toBe(3000);
-      expect(externalUrl).toBe('http://localhost:3000');
+      expect(externalApiUrl).toBe('http://localhost:3000');
+      expect(externalUrl).toBe('http://localhost:4200');
     });
 
     it('should return the correct db configuration', () => {

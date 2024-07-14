@@ -5,12 +5,13 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Query,
   Res,
   UseGuards,
 } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { Throttle } from '@nestjs/throttler';
-import { AuthorizedUser, SignInResponse } from 'common';
+import { AuthorizedUser, OK_RESPONSE, SignInResponse } from 'common';
 import { Response } from 'express';
 import { Profile } from 'passport-google-oauth20';
 
@@ -21,6 +22,7 @@ import {
   OauthSignInCommand,
   RefreshTokenCommand,
   ResetPasswordCommand,
+  VerifyEmailCommand,
 } from './commands/impl';
 import {
   LocalSignInRequestDto,
@@ -99,5 +101,21 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async refreshToken(@Body() dto: RefreshTokenRequestDto) {
     return this.commandBus.execute(new RefreshTokenCommand(dto.token));
+  }
+
+  @Public()
+  @Get('verify-email')
+  @HttpCode(HttpStatus.PERMANENT_REDIRECT)
+  async verifyEmail(
+    @Res({ passthrough: true }) res: Response,
+    @Query('accessToken') accessToken: string
+  ) {
+    const signInLink = await this.commandBus.execute(
+      new VerifyEmailCommand(accessToken)
+    );
+
+    res.setHeader('Location', signInLink);
+
+    return OK_RESPONSE;
   }
 }

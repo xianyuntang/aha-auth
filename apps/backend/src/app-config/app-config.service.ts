@@ -20,6 +20,9 @@ export class AppConfigService {
     return {
       prefix: this.configService.getOrThrow<string>(EnvField.SERVER_PREFIX),
       port: this.configService.getOrThrow<number>(EnvField.SERVER_PORT),
+      externalApiUrl: this.configService.getOrThrow<string>(
+        EnvField.SERVER_EXTERNAL_API_URL
+      ),
       externalUrl: this.configService.getOrThrow<string>(
         EnvField.SERVER_EXTERNAL_URL
       ),

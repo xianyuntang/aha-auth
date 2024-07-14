@@ -33,6 +33,24 @@ export class JwtTokenService {
   }
 
   /**
+   * Generates a verify link for the given user.
+   */
+  async getVerifyEmailLink(user: User): Promise<string> {
+    const {
+      server: { externalApiUrl, prefix },
+    } = this.appConfigService;
+    const accessToken = this.issueAccessToken(user);
+
+    return urljoin(
+      externalApiUrl,
+      prefix,
+      'auth',
+      'verify-email',
+      `?accessToken=${accessToken}`
+    );
+  }
+
+  /**
    * Decodes the refresh token
    */
   async decodeRefreshToken(
@@ -117,5 +135,20 @@ export class JwtTokenService {
    */
   isTokenExpired(exp: number): boolean {
     return exp < dayjs().unix();
+  }
+
+  /**
+   * Decodes the access token
+   */
+  async decodeAccessToken(token: string): Promise<JwtTokenPayload | undefined> {
+    let decodedToken: JwtTokenPayload | null = null;
+    try {
+      decodedToken = (await this.jwtService.verify(token, {
+        secret: this.appConfigService.jwt.accessSecret,
+      })) as JwtTokenPayload;
+      return decodedToken;
+    } catch (e) {
+      return undefined;
+    }
   }
 }

@@ -45,21 +45,31 @@ const SignInPage = () => {
 
   const handleSignInClick = async () => {
     try {
-      await authService.signIn(email, password);
-      setIsEmailSent(true);
+      const { accessToken, refreshToken } = await authService.signIn(
+        email,
+        password
+      );
+
+      updateAccessToken(accessToken);
+      updateRefreshToken(refreshToken);
+
       setIsAlertOpen(false);
       setAlertMessages([]);
     } catch (e) {
       if (isAxiosError(e)) {
-        setIsAlertOpen(true);
         if (e.response?.status === 400) {
           setAlertMessages(
             (e.response?.data.message as string[]) || ['unknown Error']
           );
+          setIsAlertOpen(true);
         } else if (e.response?.status === 401) {
           setAlertMessages([e.response?.data.message]);
+          setIsAlertOpen(true);
+        } else if (e.response?.status === 403) {
+          setIsEmailSent(true);
         } else if (e.response?.status === 500) {
           setAlertMessages(['unknown error']);
+          setIsAlertOpen(true);
         }
       } else {
         setAlertMessages(['unknown error']);

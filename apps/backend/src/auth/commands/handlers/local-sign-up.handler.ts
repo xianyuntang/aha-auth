@@ -41,7 +41,7 @@ export class LocalSignUpHandler implements ICommandHandler<LocalSignUpCommand> {
       });
     });
 
-    await this.signinMailService.sendSignInMail(user);
+    await this.signinMailService.sendVerifyMail(user);
 
     return OK_RESPONSE;
   }

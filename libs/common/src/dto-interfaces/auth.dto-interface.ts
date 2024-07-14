@@ -10,7 +10,6 @@ export interface LocalSignInRequest {
 }
 
 export interface SignInResponse {
-  redirectUrl: string;
   accessToken: string;
   refreshToken: string;
 }

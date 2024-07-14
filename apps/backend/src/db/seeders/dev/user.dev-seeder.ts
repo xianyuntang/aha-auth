@@ -19,22 +19,12 @@ export class UserDevSeeder extends Seeder {
     userRepository.create({
       id,
       email,
+      verified: true,
       password: await bcryptjs.hash(
         password,
         await bcryptjs.genSalt(BCRYPT_ROUNDS)
       ),
       profile: {},
     });
-
-    for (let i = 0; i++; i < 100) {
-      userRepository.create({
-        email: `test-${i}@example.com`,
-        password: await bcryptjs.hash(
-          password,
-          await bcryptjs.genSalt(BCRYPT_ROUNDS)
-        ),
-        profile: {},
-      });
-    }
   }
 }

@@ -26,6 +26,9 @@ export class AppEnvSchema {
   [EnvField.SERVER_PORT]!: number;
 
   @IsUrl({ require_protocol: true, require_tld: false })
+  [EnvField.SERVER_EXTERNAL_API_URL]!: string;
+
+  @IsUrl({ require_protocol: true, require_tld: false })
   [EnvField.SERVER_EXTERNAL_URL]!: string;
 
   @IsString()

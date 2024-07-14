@@ -1,11 +1,15 @@
 import { wrap } from '@mikro-orm/core';
 import { EntityManager } from '@mikro-orm/postgresql';
-import { UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, UnauthorizedException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { OK_RESPONSE } from 'common';
+import { SignInResponse } from 'common';
 
 import { UserRepository } from '../../../orm';
-import { PasswordService, SignInMailService } from '../../services';
+import {
+  JwtTokenService,
+  PasswordService,
+  SignInMailService,
+} from '../../services';
 import { LocalSignInCommand } from '../impl';
 
 @CommandHandler(LocalSignInCommand)
@@ -14,13 +18,14 @@ export class LocalSignInHandler implements ICommandHandler<LocalSignInCommand> {
     private readonly em: EntityManager,
     private readonly passwordService: PasswordService,
     private readonly userRepository: UserRepository,
+    private readonly jwtTokenService: JwtTokenService,
     private readonly signinMailService: SignInMailService
   ) {}
 
   /**
    * Executes a local sign-in command.
    */
-  async execute(command: LocalSignInCommand): Promise<typeof OK_RESPONSE> {
+  async execute(command: LocalSignInCommand): Promise<SignInResponse> {
     const { email, password } = command;
 
     const user = await this.em.transactional(async () => {
@@ -48,13 +53,19 @@ export class LocalSignInHandler implements ICommandHandler<LocalSignInCommand> {
         throw new UnauthorizedException('Username and password do not match.');
       }
 
+      if (!exist?.verified) {
+        await this.signinMailService.sendVerifyMail(exist);
+        throw new ForbiddenException("You don't have permission to sign in.");
+      }
+
       wrap(exist).assign({ signInHistories: {} });
 
       return exist;
     });
 
-    await this.signinMailService.sendSignInMail(user);
+    const accessToken = this.jwtTokenService.issueAccessToken(user);
+    const refreshToken = this.jwtTokenService.issueRefreshToken(user);
 
-    return OK_RESPONSE;
+    return { accessToken, refreshToken };
   }
 }

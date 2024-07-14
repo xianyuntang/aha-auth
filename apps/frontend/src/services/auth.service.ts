@@ -6,6 +6,7 @@ import {
   RefreshTokenRequest,
   RefreshTokenResponse,
   ResetPasswordRequest,
+  SignInResponse,
 } from 'common';
 import urljoin from 'url-join';
 
@@ -13,10 +14,10 @@ import { apiUrl, fetcher, publicFetcher } from '../core';
 
 export const signIn = async (email: string, password: string) => {
   try {
-    const { data } = await publicFetcher.post<typeof OK_RESPONSE>(
-      '/auth/sign-in',
-      { email, password } as LocalSignInRequest
-    );
+    const { data } = await publicFetcher.post<SignInResponse>('/auth/sign-in', {
+      email,
+      password,
+    } as LocalSignInRequest);
 
     return data;
   } catch (e) {

@@ -17,4 +17,3 @@ fi
 
 echo "$color>>> Seed data$reset"
 node dist/apps/backend/seed-dev.js
-node dist/apps/backend/seed.js
