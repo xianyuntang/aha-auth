@@ -5,6 +5,7 @@ export interface AuthorizedUser {
     lastName: string;
     firstName: string;
   }>;
+  oauth: boolean;
 }
 
 export interface JwtTokenPayload {

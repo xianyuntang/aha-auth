@@ -77,6 +77,7 @@ export class JwtTokenService {
     const {
       id,
       email,
+      password,
       profile: { firstName, lastName },
     } = user;
 
@@ -89,6 +90,7 @@ export class JwtTokenService {
             firstName: firstName ?? null,
             lastName: lastName ?? null,
           },
+          oauth: !password,
         } as AuthorizedUser,
       },
       {
@@ -109,6 +111,7 @@ export class JwtTokenService {
     const {
       id,
       email,
+      password,
       profile: { firstName, lastName },
     } = user;
 
@@ -121,6 +124,7 @@ export class JwtTokenService {
             firstName: firstName ?? null,
             lastName: lastName ?? null,
           },
+          oauth: !password,
         } as AuthorizedUser,
       },
       {
