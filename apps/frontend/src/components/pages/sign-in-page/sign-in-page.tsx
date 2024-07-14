@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 
 import { useAuth } from '../../../hooks';
 import { authService } from '../../../services';
-import ResentEmailHelper from '../../resent-email-helper';
+import ResendEmailHelper from '../../resend-email-helper';
 
 const SignInPage = () => {
   const [email, setEmail] = useState<string>('');
@@ -79,7 +79,7 @@ const SignInPage = () => {
   return (
     <Flex justify="center" direction="column" align="center" gap={4}>
       {isEmailSent ? (
-        <ResentEmailHelper onClick={handleSignInClick} />
+        <ResendEmailHelper onClick={handleSignInClick} />
       ) : (
         <>
           <Input
